@@ -1,0 +1,136 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #090d16; /* Le noir bleuté profond */
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Grille de fond magique */
+.grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), 
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+}
+
+/* Navigation - Effet de verre (Glassmorphism) */
+.nav-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    background-color: rgba(9, 13, 22, 0.8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 100;
+}
+
+.nav-header .title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s;
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.02em;
+}
+
+.logo-svg {
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.2));
+}
+
+.button {
+    display: flex;
+    gap: 15px;
+}
+
+#connexion {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: color 0.2s;
+}
+
+#connexion:hover { color: white; }
+
+#inscrire {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#inscrire:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* Footer */
+footer {
+    padding: 60px 40px;
+    margin-top: 100px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    text-align: center;
+    /* color: rgba(255, 255, 255, 0.4); */
+    /* font-size: 0.9rem; */
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+}
+
+footer p {
+    color: #8f9bb3;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+footer .logo svg {
+    width: 28px;
+    height: 28px;
+}
+
+footer .logo-text {
+    font-size: 1.2rem;;
+}
