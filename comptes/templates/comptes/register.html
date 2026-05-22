@@ -1,13 +1,56 @@
-<h1>Inscription</h1>
+{% extends "base.html" %}
+{% load static %}
 
-<form method="POST">
+{% block title %}Inscription - CvApp{% endblock %}
 
-    {% csrf_token %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
 
-    {{ form.as_p }}
+{% block content %}
+<div class="auth-wrapper">
+    <!-- On réutilise les orbes pour l'ambiance lumineuse -->
+    <div class="glow-orb orb-purple"></div>
+    <div class="glow-orb orb-blue"></div>
 
-    <button type="submit">
-        S'inscrire
-    </button>
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Créer un compte</h2>
+            <p>Rejoignez-nous pour propulser votre carrière.</p>
+        </div>
 
-</form>
+        <form method="post" class="auth-form" novalidate>
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="field-errors">
+                            {% for error in field.errors %}
+                                <span class="error-text">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <!-- Affichage des erreurs globales (ex: mots de passe non identiques) -->
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {% for error in form.non_field_errors %}
+                        <p class="error-text">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn-primary full-width">S'inscrire</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Déjà un compte ? <a href="#">Connectez-vous</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
