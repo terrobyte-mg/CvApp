@@ -3,6 +3,7 @@
 
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+
 <script defer src="{% static 'js/auth.js' %}"></script>
 {% endblock %}
 
@@ -12,30 +13,47 @@
 
     <div class="auth-container">
 
-        <!-- LOGIN -->
-        <div class="form-box login-box {% if mode == 'login' %}active{% endif %}">
-            {% include "comptes/partials/login_form.html" %}
+        <!-- FORM UNIQUE (IMPORTANT) -->
+        <div class="form-box active">
+
+            {% if mode == "login" %}
+
+                {% include "comptes/partials/login_form.html" %}
+
+            {% else %}
+
+                {% include "comptes/partials/register_form.html" %}
+
+            {% endif %}
+
         </div>
 
-        <!-- REGISTER -->
-        <div class="form-box register-box {% if mode == 'register' %}active{% endif %}">
-            {% include "comptes/partials/register_form.html" %}
-        </div>
-
-        <!-- SWITCH -->
+        <!-- SWITCH PANEL -->
         <div class="switch-panel">
 
-            <h2 id="switch-title">
-                Bienvenue sur CvApp
-            </h2>
+            {% if mode == "login" %}
 
-            <p id="switch-text">
-                Pas encore de compte ?
-            </p>
+                <h2>Bienvenue</h2>
+                <p>Pas encore de compte ?</p>
 
-            <button type="button" id="switch-btn">
-                S'inscrire
-            </button>
+                <a href="?mode=register">
+                    <button type="button" id="switch-btn">
+                        S'inscrire
+                    </button>
+                </a>
+
+            {% else %}
+
+                <h2>Créer un compte</h2>
+                <p>Déjà inscrit ?</p>
+
+                <a href="?mode=login">
+                    <button type="button" id="switch-btn">
+                        Se connecter
+                    </button>
+                </a>
+
+            {% endif %}
 
         </div>
 

@@ -1,36 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.querySelectorAll(".toggle-password").forEach(btn => {
+    btn.addEventListener("click", () => {
+        // Récupère l'input cible via l'attribut data-target
+        const input = document.getElementById(btn.dataset.target);
+        if (!input) return;
 
-    const loginBox = document.querySelector('.login-box');
-    const registerBox = document.querySelector('.register-box');
+        // Récupère les icônes à l'intérieur du bouton
+        const eyeOn = btn.querySelector(".icon-eye");
+        const eyeOff = btn.querySelector(".icon-eye-off");
 
-    const switchBtn = document.getElementById('switch-btn');
-    const switchTitle = document.getElementById('switch-title');
-    const switchText = document.getElementById('switch-text');
+        // Bascule le type de l'input
+        const isHidden = input.type === "password";
+        input.type = isHidden ? "text" : "password";
 
-    let loginMode = true;
-
-    switchBtn.addEventListener('click', () => {
-
-        loginMode = !loginMode;
-
-        if (loginMode) {
-
-            loginBox.classList.add('active');
-            registerBox.classList.remove('active');
-
-            switchTitle.textContent = "Bienvenue 👋";
-            switchText.textContent = "Pas encore de compte ?";
-            switchBtn.textContent = "S'inscrire";
-
+        // Mise à jour de l'affichage des icônes (avec sécurité si null)
+        if (eyeOn && eyeOff) {
+            eyeOn.style.display = isHidden ? "none" : "block";
+            eyeOff.style.display = isHidden ? "block" : "none";
         } else {
-
-            registerBox.classList.add('active');
-            loginBox.classList.remove('active');
-
-            switchTitle.textContent = "Créer un compte";
-            switchText.textContent = "Déjà inscrit ?";
-            switchBtn.textContent = "Se connecter";
+            console.warn("Les éléments .eye ou .eye-off sont manquants dans le bouton:", btn);
         }
     });
-
 });

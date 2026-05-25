@@ -17,7 +17,15 @@
     <div class="hero-content">
         <h1>Crée ton <span class="text-gradient">CV professionnel</span> en quelques minutes</h1>
         <p>Simple. Rapide. Moderne. Propulse ta carrière avec un design qui se démarque.</p>
-        <button class="btn-primary">Créer mon cv</button>
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">
+            <button class="btn-primary">Accéder à mon dashboard</button>
+        </a>
+        {% else %}
+        <a href="{% url 'auth' %}?mode=register">
+            <button class="btn-primary">Commencer gratuitement</button>
+        </a>
+        {% endif %}
     </div>
 
     <!-- Visuel Mockup CV -->

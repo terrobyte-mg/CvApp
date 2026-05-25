@@ -133,6 +133,56 @@
     left: 100%;
 }
 
+/* Le conteneur doit être le point de référence */
+.form-group.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* On ajuste l'input pour laisser de la place à l'icône à droite */
+#register_password1 {
+    padding-right: 45px !important; /* On augmente le padding droit */
+    width: 100%;
+    display: block; /* S'assure qu'il prend toute la largeur */
+}
+
+/* Style du bouton "œil" */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    bottom: 12px; /* Aligné verticalement avec le padding de l'input */
+    height: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    user-select: none;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+.toggle-password:focus {
+    outline: none;
+}
+
+.icon-eye {
+    display: block;
+}
+
+.icon-eye-off {
+    display: none;
+}
+
 /* --- Panneau latéral (Switch) --- */
 .switch-panel {
     flex: 0.8;

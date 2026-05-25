@@ -8,12 +8,22 @@ class RegisterForm(forms.ModelForm):
 
     password1 = forms.CharField(
         label="Mot de passe",
-        widget=forms.PasswordInput(attrs={'placeholder': 'Mot de passe'})
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Mot de passe',
+                'id': 'register_password1'
+            }
+        )
     )
 
     password2 = forms.CharField(
         label="Confirmer le mot de passe",
-        widget=forms.PasswordInput(attrs={'placeholder': 'Confirmer le mot de passe'})
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Confirmer le mot de passe',
+                'id': 'register_password2'
+            }
+        )
     )
 
     class Meta:
@@ -70,5 +80,10 @@ class LoginForm(AuthenticationForm):
 
     password = forms.CharField(
         label="Mot de passe",
-        widget=forms.PasswordInput(attrs={'placeholder': 'Mot de passe'})
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Mot de passe',
+                'id': 'login_password'
+            }
+        )
     )
