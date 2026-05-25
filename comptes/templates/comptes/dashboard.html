@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mon Tableau de Bord - CvApp{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <!-- Header du Dashboard -->
+    <header class="dashboard-header">
+        <div class="header-text">
+            <h1>Bienvenue, {{ user.username }} 👋</h1>
+            <p>Gère tes CV et propulse ta carrière.</p>
+        </div>
+        <a href="#" class="btn-primary">
+            <iconify-icon icon="lucide:plus"></iconify-icon>
+            Nouveau CV
+        </a>
+    </header>
+
+    <!-- Statistiques ou Infos rapides -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">CV créés</span>
+            <span class="stat-value">{{ cv_count|default:"0" }}</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Vues totales</span>
+            <span class="stat-value">0</span>
+        </div>
+    </div>
+
+    <!-- Liste des CV -->
+    <section class="cv-section">
+        <h2 class="section-title">Mes Documents</h2>
+        
+        <div class="cv-grid">
+            {% for cv in cvs %}
+                <div class="cv-item-card">
+                    <div class="cv-preview">
+                        <!-- Petit mockup miniature -->
+                        <div class="mini-mockup">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    <div class="cv-info">
+                        <h3>{{ cv.titre }}</h3>
+                        <p>Modifié le {{ cv.date_modification|date:"d M Y" }}</p>
+                        <div class="cv-actions">
+                            <a href="#" class="action-btn">Modifier</a>
+                            <a href="#" class="action-btn">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <!-- État vide si aucun CV -->
+                <div class="empty-state">
+                    <iconify-icon icon="lucide:file-plus" class="empty-icon"></iconify-icon>
+                    <p>Tu n'as pas encore créé de CV.</p>
+                    <a href="#" class="btn-secondary">Commencer maintenant</a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

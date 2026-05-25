@@ -1,32 +1,64 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import login as auth_login
+from django.conf import settings
 
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 
 
-def register(request):
+def auth_view(request):
 
-    if request.method == 'POST':
+    mode = request.GET.get('mode', 'login')
 
-        form = RegisterForm(request.POST)
+    login_form = LoginForm(request)
+    register_form = RegisterForm()
 
-        if form.is_valid():
+    # ===== REGISTER =====
+    if request.method == 'POST' and 'register_submit' in request.POST:
 
-            form.save()
+        mode = 'register'
+
+        register_form = RegisterForm(request.POST)
+
+        if register_form.is_valid():
+
+            register_form.save()
 
             messages.success(
                 request,
-                "Votre compte a été créé avec succès. Connectez-vous maintenant."
+                "Compte créé avec succès. Connecte-toi maintenant."
             )
 
-            return redirect('login')
+            return redirect('/auth/?mode=login')
 
-    else:
+    # ===== LOGIN =====
+    elif request.method == 'POST' and 'login_submit' in request.POST:
 
-        form = RegisterForm()
+        mode = 'login'
+
+        login_form = LoginForm(request, data=request.POST)
+
+        if login_form.is_valid():
+
+            user = login_form.get_user()
+
+            auth_login(request, user)
+
+            messages.success(
+                request,
+                f"Bienvenue {user.username}"
+            )
+
+            return redirect(settings.LOGIN_REDIRECT_URL)
 
     context = {
-        'form': form
+        'login_form': login_form,
+        'register_form': register_form,
+        'mode': mode
     }
 
-    return render(request, 'comptes/register.html', context)
+    return render(request, 'comptes/auth.html', context)
+
+
+def dashboard_view(request):
+    return render(request, 'comptes/dashboard.html')

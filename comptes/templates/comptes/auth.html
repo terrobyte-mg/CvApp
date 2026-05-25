@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+<script defer src="{% static 'js/auth.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper" data-mode="{{ mode }}">
+
+    <div class="auth-container">
+
+        <!-- LOGIN -->
+        <div class="form-box login-box {% if mode == 'login' %}active{% endif %}">
+            {% include "comptes/partials/login_form.html" %}
+        </div>
+
+        <!-- REGISTER -->
+        <div class="form-box register-box {% if mode == 'register' %}active{% endif %}">
+            {% include "comptes/partials/register_form.html" %}
+        </div>
+
+        <!-- SWITCH -->
+        <div class="switch-panel">
+
+            <h2 id="switch-title">
+                Bienvenue sur CvApp
+            </h2>
+
+            <p id="switch-text">
+                Pas encore de compte ?
+            </p>
+
+            <button type="button" id="switch-btn">
+                S'inscrire
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

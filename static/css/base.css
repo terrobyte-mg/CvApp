@@ -1,4 +1,4 @@
-/* Reset & Base */
+/* --- Reset & Base --- */
 * {
     margin: 0;
     padding: 0;
@@ -7,13 +7,18 @@
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #090d16; /* Le noir bleuté profond */
+    background-color: #090d16;
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* Grille de fond magique */
+main {
+    padding-top: 72px;
+}
+
+/* --- Grille de fond --- */
 .grid-bg {
     position: fixed;
     inset: 0;
@@ -25,7 +30,7 @@ body {
     pointer-events: none;
 }
 
-/* Navigation - Effet de verre (Glassmorphism) */
+/* --- Navigation --- */
 .nav-header {
     position: fixed;
     top: 0;
@@ -38,20 +43,64 @@ body {
     padding: 0 40px;
     background-color: rgba(9, 13, 22, 0.8);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     z-index: 100;
 }
 
-.nav-header .title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+.nav-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
+/* --- Correction spécifique pour les liens boutons --- */
+.nav-link {
+    text-decoration: none !important;
+    display: inline-block;
+}
+
+#connexion, #inscrire {
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none !important;
+}
+
+#connexion {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 8px 16px;
+}
+
+#connexion:hover {
+    color: white;
+}
+
+#inscrire {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+}
+
+#inscrire:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+#connexion:active, #inscrire:active {
+    transform: scale(0.98);
+}
+
+/* --- Logo & Titre --- */
 .logo-link {
     text-decoration: none;
     color: inherit;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s ease;
 }
 
 .logo-link:hover {
@@ -71,66 +120,48 @@ body {
     letter-spacing: -0.02em;
 }
 
-.logo-svg {
-    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.2));
-}
-
-.button {
+/* --- Système de Messages Django --- */
+.messages-container {
+    position: fixed;
+    top: 85px;
+    right: 20px;
+    z-index: 1000;
     display: flex;
-    gap: 15px;
+    flex-direction: column;
+    gap: 10px;
 }
 
-#connexion {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 500;
-    cursor: pointer;
-    padding: 8px 16px;
-    transition: color 0.2s;
-}
-
-#connexion:hover { color: white; }
-
-#inscrire {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+.alert {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s ease-out;
 }
 
-#inscrire:hover { background: rgba(255, 255, 255, 0.15); }
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
 
-/* Footer */
+/* --- Footer --- */
 footer {
     padding: 60px 40px;
     margin-top: 100px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
-    text-align: center;
-    /* color: rgba(255, 255, 255, 0.4); */
-    /* font-size: 0.9rem; */
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
+    text-align: center;
 }
 
 footer p {
     color: #8f9bb3;
     font-size: 0.9rem;
     opacity: 0.8;
-}
-
-footer .logo svg {
-    width: 28px;
-    height: 28px;
-}
-
-footer .logo-text {
-    font-size: 1.2rem;;
 }
