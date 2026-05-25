@@ -1,70 +1,96 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Mon Tableau de Bord - CvApp{% endblock %}
+{% block title %}Dashboard - CvApp{% endblock %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-wrapper">
-    <!-- Header du Dashboard -->
-    <header class="dashboard-header">
-        <div class="header-text">
-            <h1>Bienvenue, {{ user.username }} 👋</h1>
-            <p>Gère tes CV et propulse ta carrière.</p>
-        </div>
-        <a href="#" class="btn-primary">
-            <iconify-icon icon="lucide:plus"></iconify-icon>
-            Nouveau CV
-        </a>
-    </header>
 
-    <!-- Statistiques ou Infos rapides -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-label">CV créés</span>
-            <span class="stat-value">{{ cv_count|default:"0" }}</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-label">Vues totales</span>
-            <span class="stat-value">0</span>
-        </div>
+<div class="dashboard-wrapper">
+
+    <div class="dashboard-header">
+
+        <h1>
+            Bienvenue, {{ user.username }} 👋
+        </h1>
+
+        <p>
+            Gère ton CV professionnel.
+        </p>
+
     </div>
 
-    <!-- Liste des CV -->
-    <section class="cv-section">
-        <h2 class="section-title">Mes Documents</h2>
-        
-        <div class="cv-grid">
-            {% for cv in cvs %}
-                <div class="cv-item-card">
-                    <div class="cv-preview">
-                        <!-- Petit mockup miniature -->
-                        <div class="mini-mockup">
-                            <div class="line"></div>
-                            <div class="line"></div>
-                        </div>
-                    </div>
-                    <div class="cv-info">
-                        <h3>{{ cv.titre }}</h3>
-                        <p>Modifié le {{ cv.date_modification|date:"d M Y" }}</p>
-                        <div class="cv-actions">
-                            <a href="#" class="action-btn">Modifier</a>
-                            <a href="#" class="action-btn">Voir</a>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <!-- État vide si aucun CV -->
-                <div class="empty-state">
-                    <iconify-icon icon="lucide:file-plus" class="empty-icon"></iconify-icon>
-                    <p>Tu n'as pas encore créé de CV.</p>
-                    <a href="#" class="btn-secondary">Commencer maintenant</a>
-                </div>
-            {% endfor %}
+    {% if cv %}
+
+        <!-- SI LE CV EXISTE -->
+
+        <div class="cv-card">
+
+            <div class="cv-preview">
+                <iconify-icon icon="lucide:file-text"></iconify-icon>
+            </div>
+
+            <div class="cv-info">
+
+                <h2>
+                    {{ cv.titre }}
+                </h2>
+
+                <p>
+                    Dernière modification :
+                    {{ cv.updated_at|date:"d M Y" }}
+                </p>
+
+            </div>
+
+            <div class="cv-actions">
+
+                <a href="#" class="btn-primary">
+                    Modifier
+                </a>
+
+                <a href="#" class="btn-secondary">
+                    Voir
+                </a>
+
+                <a href="#" class="btn-secondary">
+                    Exporter
+                </a>
+
+            </div>
+
         </div>
-    </section>
+
+    {% else %}
+
+        <!-- SI AUCUN CV -->
+
+        <div class="empty-state">
+
+            <iconify-icon
+                icon="lucide:file-plus-2"
+                class="empty-icon">
+            </iconify-icon>
+
+            <h2>
+                Aucun CV trouvé
+            </h2>
+
+            <p>
+                Commence dès maintenant à créer ton CV professionnel.
+            </p>
+
+            <a href="#" class="btn-primary">
+                Créer mon CV
+            </a>
+
+        </div>
+
+    {% endif %}
+
 </div>
+
 {% endblock %}
