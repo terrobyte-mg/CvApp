@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CV Manager{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="cv-manager-wrapper">
+
+    <!-- HEADER -->
+    <div class="cv-manager-header">
+
+        <h1>Gestion de ton CV</h1>
+
+        <p>Modifie toutes les informations utilisées pour générer ton CV</p>
+
+    </div>
+
+    <!-- CARDS PRINCIPALES -->
+    <div class="cv-manager-grid">
+
+        <a href="{% url 'profil_edit' %}" class="manager-card">
+            <h3>Profil</h3>
+            <p>Informations personnelles</p>
+        </a>
+
+        <a href="{% url 'diplome_list' %}" class="manager-card">
+            <h3>Diplômes</h3>
+            <p>Formations et études</p>
+        </a>
+
+        <a href="{% url 'experience_list' %}" class="manager-card">
+            <h3>Expériences</h3>
+            <p>Parcours professionnel</p>
+        </a>
+
+        <a href="{% url 'competence_manage' %}" class="manager-card">
+            <h3>Compétences</h3>
+            <p>Technologies et savoir-faire</p>
+        </a>
+
+    </div>
+
+    <!-- FUTUR EXTENSIONS -->
+    <div class="cv-manager-future">
+
+        <h2>Sections à venir</h2>
+
+        <div class="cv-manager-grid">
+
+            <div class="manager-card disabled">
+                <h3>Langues</h3>
+                <p>Anglais, Français, etc.</p>
+            </div>
+
+            <div class="manager-card disabled">
+                <h3>Projets</h3>
+                <p>Réalisations personnelles</p>
+            </div>
+
+            <div class="manager-card disabled">
+                <h3>Loisirs</h3>
+                <p>Centres d’intérêt</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

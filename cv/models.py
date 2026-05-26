@@ -157,7 +157,7 @@ class Experience(models.Model):
                 "date_fin": "Un poste actuel ne peut pas avoir de date de fin renseignée."
             })
         
-        if not self.poste_actuel and not self.date_fin and self.poste or self.entreprise or self.ville:
+        if not self.date_fin and not self.poste_actuel:
             raise ValidationError({
                 "date_fin": "Veuillez indiquer une date de fin ou cocher poste actuel."
             })

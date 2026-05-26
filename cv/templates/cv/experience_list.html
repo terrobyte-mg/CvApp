@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="cv-manager-wrapper">
+
+    <h1>Mes expériences</h1>
+
+    <a href="{% url 'experience_create' %}" class="btn-primary">
+        Ajouter une expérience
+    </a>
+
+    <div class="cv-grid">
+
+        {% for e in experiences %}
+
+            <div class="manager-card">
+
+                <h3>{{ e.poste }}</h3>
+
+                <p>{{ e.entreprise }}</p>
+
+                <p>{{ e.type_contrat }}</p>
+
+                <p>
+                    {{ e.date_debut }} - 
+                    {% if e.poste_actuel %}
+                        Actuel
+                    {% else %}
+                        {{ e.date_fin }}
+                    {% endif %}
+                </p>
+
+                <a href="{% url 'experience_update' e.id %}">Modifier</a>
+                <a href="{% url 'experience_delete' e.id %}">Supprimer</a>
+
+
+            </div>
+
+        {% empty %}
+
+            <p>Aucune expérience ajoutée.</p>
+
+        {% endfor %}
+
+        <a href="{% url 'cv_manager' %}" class="btn-secondary">
+            Retour
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

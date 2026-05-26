@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer un diplôme{% endblock %}
+
+{% block content %}
+
+<div class="onboarding-wrapper">
+
+    <div class="form-container">
+
+        <h1 style="margin-bottom: 10px;">
+            Supprimer le diplôme
+        </h1>
+
+        <p style="color: #8f9bb3; margin-bottom: 20px;">
+            Es-tu sûr de vouloir supprimer ce diplôme ?
+        </p>
+
+        <!-- INFOS DU DIPLÔME -->
+        <div class="manager-card" style="margin-bottom: 20px;">
+
+            <h3>{{ diplome.titre }}</h3>
+
+            <p>{{ diplome.etablissement }}</p>
+
+            <p>{{ diplome.niveau }}</p>
+
+            <p>
+                {{ diplome.annee_obtention|default:"En cours" }}
+            </p>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="wizard-actions">
+
+                <button type="submit" class="btn-primary" style="background: #ef4444;">
+                    Oui, supprimer
+                </button>
+
+                <a href="{% url 'diplome_list' %}" class="btn-secondary">
+                    Annuler
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
