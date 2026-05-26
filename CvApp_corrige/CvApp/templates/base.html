@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}CvApp{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_head %}{% endblock %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+</head>
+
+<body>
+    <div class="grid-bg"></div>
+    <div class="top-gradient"></div>
+
+    <nav class="nav-header">
+        <a href="{% url 'home' %}" class="logo-link">
+            {% include 'logo.html' %}
+        </a>
+
+        <div class="nav-actions">
+            {% if user.is_authenticated %}
+                <span class="user-info">Salut, <strong>{{ user.username }}</strong></span>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" id="connexion">Déconnexion</button>
+                </form>
+            {% else %}
+
+            {% if request.resolver_match.url_name != 'auth' %}
+                <a href="{% url 'auth' %}?mode=login" class="nav-link">
+                    <button type="button" id="connexion">Connexion</button>
+                </a>
+                <a href="{% url 'auth' %}?mode=register" class="nav-link">
+                    <button type="button" id="inscrire">S'inscrire</button>
+                </a>
+            {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        {% include 'logo.html' %}
+        <p>© 2026 CvApp - Tous droits réservés</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

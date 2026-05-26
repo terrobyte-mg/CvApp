@@ -1,0 +1,258 @@
+/* --- Mise en page globale --- */
+.auth-wrapper {
+    min-height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 40px 20px;
+    margin-top: 72px;
+}
+
+.auth-container {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    min-height: 550px;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Centrage des formulaires --- */
+.form-box {
+    flex: 1.2;
+    padding: 40px;
+    display: none; /* Masqué par défaut */
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement */
+    align-items: center;     /* Centre horizontalement */
+    animation: fadeIn 0.4s ease;
+}
+
+.form-box.active {
+    display: flex; /* Affiche en flex quand actif */
+}
+
+/* --- Style du formulaire et inputs --- */
+.auth-form {
+    width: 100%;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.auth-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.auth-header p {
+    color: #8f9bb3;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.auth-form input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* --- Boutons --- */
+.auth-form .btn-primary {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.auth-form .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+    filter: brightness(1.1);
+}
+
+/* Effet de brillance au survol */
+.auth-form .btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+
+.auth-form .btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Le conteneur doit être le point de référence */
+.form-group.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* On ajuste l'input pour laisser de la place à l'icône à droite */
+#register_password1 {
+    padding-right: 45px !important; /* On augmente le padding droit */
+    width: 100%;
+    display: block; /* S'assure qu'il prend toute la largeur */
+}
+
+/* Style du bouton "œil" */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    bottom: 12px; /* Aligné verticalement avec le padding de l'input */
+    height: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    user-select: none;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+.toggle-password:focus {
+    outline: none;
+}
+
+.icon-eye {
+    display: block;
+}
+
+.icon-eye-off {
+    display: none;
+}
+
+/* --- Panneau latéral (Switch) --- */
+.switch-panel {
+    flex: 0.8;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.switch-panel h2 {
+    margin-bottom: 26px;
+}
+
+.switch-panel p {
+    margin-bottom: 26px;
+}
+
+#switch-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 12px 40px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+#switch-btn:hover {
+    background: white;
+    color: #3b82f6;
+}
+
+/* --- Erreurs et Footer --- */
+.error-text {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+    margin-top: 6px;
+    display: block;
+}
+
+.auth-footer {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #8f9bb3;
+}
+
+/* --- Animations et Responsive --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+        max-width: 450px;
+        min-height: auto;
+    }
+    .switch-panel {
+        order: -1;
+        padding: 30px;
+    }
+    .form-box {
+        padding: 30px 20px;
+    }
+}

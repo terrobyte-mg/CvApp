@@ -1,0 +1,105 @@
+{% extends "base_cv.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/cv_futuriste.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="cv-cyber">
+
+    <header class="cyber-header">
+        <div class="scanner-line"></div>
+        <div class="header-core">
+            <h1 class="cyber-name" data-text="{{ profil.prenom }} {{ profil.nom }}">
+                {{ profil.prenom }} {{ profil.nom }}
+            </h1>
+            <div class="status-badge">// CORE_INITIALIZED</div>
+        </div>
+        
+        <h2 class="cyber-title">&gt; SYSTEM_ROLE: {{ cv.titre }}</h2>
+        
+        {% if cv.introduction %}
+            <div class="cyber-panel intro-panel">
+                <div class="panel-label">OVERVIEW</div>
+                <p>{{ cv.introduction|linebreaksbr }}</p>
+            </div>
+        {% endif %}
+    </header>
+
+    <div class="cyber-grid">
+        
+        <div class="cyber-col-left">
+            
+            <div class="cyber-panel">
+                <div class="panel-label">COMM_CHANNELS</div>
+                <ul class="cyber-contact">
+                    <li><span class="spec">[NET]</span> {{ profil.user.email }}</li>
+                    {% if profil.telephone %}
+                    <li><span class="spec">[TEL]</span> {{ profil.telephone }}</li>
+                    {% endif %}
+                    {% if profil.adresse %}
+                    <li><span class="spec">[LOC]</span> {{ profil.adresse }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            {% if competences %}
+            <div class="cyber-panel">
+                <div class="panel-label">TECH_STACK</div>
+                <div class="cyber-skills">
+                    {% for c in competences %}
+                        <span class="node-tag">{{ c.nom }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <div class="cyber-col-right">
+            
+            {% if experiences %}
+            <div class="cyber-panel">
+                <div class="panel-label">LOG_EXPERIENCES</div>
+                
+                {% for e in experiences %}
+                    <div class="log-block">
+                        <div class="log-time">
+                            {{ e.date_debut|date:"Y.m" }} // {% if e.poste_actuel %}ACTIVE{% else %}{{ e.date_fin|date:"Y.m" }}{% endif %}
+                        </div>
+                        <h4 class="log-title">{{ e.poste }} <span class="accent">@ {{ e.entreprise }}</span></h4>
+                        {% if e.description %}
+                            <p class="log-desc">{{ e.description|linebreaksbr }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if diplomes %}
+            <div class="cyber-panel">
+                <div class="panel-label">EDU_TRAINING_MODULE</div>
+                
+                {% for d in diplomes %}
+                    <div class="log-block">
+                        <div class="log-time">
+                            {{ d.annee_debut }} // {% if d.en_cours %}PENDING{% else %}{{ d.annee_obtention }}{% endif %}
+                        </div>
+                        <h4 class="log-title">{{ d.titre }}</h4>
+                        <p class="log-meta">{{ d.etablissement }} &bull; {{ d.get_niveau_display }}</p>
+                        {% if d.description %}
+                            <p class="log-desc">{{ d.description|linebreaksbr }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

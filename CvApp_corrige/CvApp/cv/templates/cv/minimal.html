@@ -1,0 +1,94 @@
+{% extends "base_cv.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/cv_minimal.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="cv-minimal">
+
+    <header class="cv-header">
+        <h1 class="name">
+            {{ profil.prenom }} {{ profil.nom }}
+        </h1>
+
+        <p class="contact">
+            {{ profil.user.email }} 
+            {% if profil.telephone %} | {{ profil.telephone }}{% endif %} 
+            {% if profil.adresse %} | {{ profil.adresse }}{% endif %}
+        </p>
+
+        <h2 class="title">
+            {{ cv.titre }}
+        </h2>
+
+        {% if cv.introduction %}
+            <p class="intro">{{ cv.introduction|linebreaksbr }}</p>
+        {% endif %}
+    </header>
+
+    {% if experiences %}
+    <section class="cv-section">
+        <h3>EXPÉRIENCES PROFESSIONNELLES</h3>
+        <hr class="section-separator">
+
+        {% for e in experiences %}
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title"><strong>{{ e.poste }}</strong> — {{ e.entreprise }}</span>
+                    <span class="item-date">
+                        {{ e.date_debut|date:"M Y" }} → {% if e.poste_actuel %}Présent{% else %}{{ e.date_fin|date:"M Y" }}{% endif %}
+                    </span>
+                </div>
+                
+                {% if e.ville %}
+                    <p class="item-location">{{ e.ville }} ({% if e.type_contrat %}{{ e.get_type_contrat_display }}{% endif %})</p>
+                {% endif %}
+
+                {% if e.description %}
+                    <p class="desc">{{ e.description|linebreaksbr }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if diplomes %}
+    <section class="cv-section">
+        <h3>DIPLÔMES & FORMATIONS</h3>
+        <hr class="section-separator">
+
+        {% for d in diplomes %}
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title"><strong>{{ d.titre }}</strong>{% if d.specialite %} ({% if d.specialite %}{{ d.specialite }}{% endif %}){% endif %}</span>
+                    <span class="item-date">
+                        {{ d.annee_debut }} → {% if d.en_cours %}En cours{% else %}{{ d.annee_obtention }}{% endif %}
+                    </span>
+                </div>
+                <p class="item-location">{{ d.etablissement }} — {{ d.get_niveau_display }}</p>
+                
+                {% if d.description %}
+                    <p class="desc">{{ d.description|linebreaksbr }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if competences %}
+    <section class="cv-section">
+        <h3>COMPÉTENCES</h3>
+        <hr class="section-separator">
+
+        <p class="skills">
+            {% for c in competences %}
+                <span class="skill-tag">{{ c.nom }}</span>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    </section>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Modifier les infos du CV{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <div class="form-header">
+        <h1>Titre & Introduction</h1>
+        <p>Ces informations apparaissent en haut de ton CV</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="help-text">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Sauvegarder</button>
+            <a href="{% url 'cv_manager' %}" class="btn-ghost">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

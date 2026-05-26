@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Accueil - CvApp{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <!-- Éléments décoratifs (Halos) -->
+    <div class="glow-orb orb-purple"></div>
+    <div class="glow-orb orb-blue"></div>
+
+    <!-- Contenu texte -->
+    <div class="hero-content">
+        <h1>Crée ton <span class="text-gradient">CV professionnel</span> en quelques minutes</h1>
+        <p>Simple. Rapide. Moderne. Propulse ta carrière avec un design qui se démarque.</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">
+            <button class="btn-primary">Accéder à mon dashboard</button>
+        </a>
+        {% else %}
+        <a href="{% url 'auth' %}?mode=register">
+            <button class="btn-primary">Commencer gratuitement</button>
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- Visuel Mockup CV -->
+    <div class="cv-visual-wrapper">
+        <!-- Carte CV principale -->
+        <div class="cv-card-main">
+            <div class="cv-header-row">
+                <div class="cv-avatar-skeleton"></div>
+                <div class="cv-name-lines">
+                    <div class="skeleton-bar bar-title"></div>
+                    <div class="skeleton-bar bar-subtitle"></div>
+                </div>
+            </div>
+
+            <div class="cv-body-lines">
+                <div class="skeleton-bar bar-full"></div>
+                <div class="skeleton-bar bar-full"></div>
+                <div class="skeleton-bar bar-medium"></div>
+            </div>
+
+            <div class="cv-grid-footer">
+                <div class="skeleton-block"></div>
+                <div class="skeleton-block"></div>
+            </div>
+        </div>
+
+        <!-- Badge flottant supérieur -->
+        <div class="floating-pill pill-top">
+            <div class="pill-icon icon-blue">
+                <iconify-icon icon="mdi:check"></iconify-icon>
+            </div>
+            <div class="pill-stack">
+                <div class="skeleton-bar bar-tiny"></div>
+                <div class="skeleton-bar bar-micro"></div>
+            </div>
+        </div>
+
+        <!-- Badge flottant inférieur -->
+        <div class="floating-pill pill-bottom">
+            <div class="pill-icon icon-purple">
+                <iconify-icon icon="mdi:star"></iconify-icon>
+            </div>
+            <div class="pill-stack">
+                <div class="skeleton-bar bar-small"></div>
+                <div class="skeleton-bar bar-micro"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

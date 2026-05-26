@@ -1,0 +1,71 @@
+<form method="post" class="auth-form">
+
+    {% csrf_token %}
+
+    {% for field in login_form %}
+
+        {% if field.name != "password" %}
+
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+
+                {{ field }}
+
+                {% if field.errors %}
+                    <div class="field-errors">
+                        {% for error in field.errors %}
+                            <span class="error-text">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+    <!-- 🔥 PASSWORD CUSTOM -->
+    <div class="form-group password-wrapper">
+
+        <label for="login-password">
+            Mot de passe
+        </label>
+
+        {{ login_form.password }}
+
+        <button type="button"
+                class="toggle-password"
+                data-target="login_password">
+            <span class="icon-eye">
+                {% include "icons/eye.html" %}
+            </span>
+            <span class="icon-eye-off">
+                {% include "icons/eye_off.html" %}
+            </span>
+        </button>
+
+        {% if login_form.password.errors %}
+            <div class="field-errors">
+                {% for error in login_form.password.errors %}
+                    <span class="error-text">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+
+    {% if login_form.non_field_errors %}
+        <div class="form-errors">
+            {% for error in login_form.non_field_errors %}
+                <p class="error-text">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <button type="submit" name="login_submit" class="btn-primary">
+        Se connecter
+    </button>
+
+</form>

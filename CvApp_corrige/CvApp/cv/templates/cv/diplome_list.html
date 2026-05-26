@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="cv-manager-wrapper">
+
+    <h1>Mes diplômes</h1>
+
+    <a href="{% url 'diplome_create' %}" class="btn-primary">
+        Ajouter un diplôme
+    </a>
+
+    <div class="cv-grid">
+
+        {% for d in diplomes %}
+
+            <div class="manager-card">
+
+                <h3>{{ d.titre }}</h3>
+
+                <p>{{ d.etablissement }}</p>
+
+                <p>{{ d.niveau }}</p>
+
+                <p>{{ d.annee_obtention|default:"En cours" }}</p>
+
+                <a href="{% url 'diplome_update' d.id %}">Modifier</a>
+                <a href="{% url 'diplome_delete' d.id %}">Supprimer</a>
+
+            </div>
+
+        {% empty %}
+
+            <p>Aucun diplôme ajouté.</p>
+
+        {% endfor %}
+
+        <a href="{% url 'cv_manager' %}" class="btn-secondary">
+            Retour
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
