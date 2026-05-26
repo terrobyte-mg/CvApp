@@ -10,7 +10,9 @@ from .views import (
     experience_create,
     experience_update,
     experience_delete,
-    competence_manage
+    competence_manage,
+    cv_builder,
+    cv_preview,
 )
 
 urlpatterns = [
@@ -24,5 +26,7 @@ urlpatterns = [
     path("experiences/add/", experience_create, name="experience_create"),
     path("experiences/<int:pk>/edit/", experience_update, name="experience_update"),
     path("experiences/<int:pk>/delete/", experience_delete, name="experience_delete"),
-    path("competences/", competence_manage, name="competence_manage")
+    path("competences/", competence_manage, name="competence_manage"),
+    path("builder/", cv_builder, name="cv_builder"),
+    path("preview/", cv_preview, name="cv_preview")
 ]

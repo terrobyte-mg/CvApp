@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import CV, Diplome, Experience
+from .models import CV, CVSettings, Diplome, Experience
 from comptes.forms import ProfilForm
 from .forms import CompetenceForm, DiplomeForm, ExperienceForm
 
@@ -162,7 +163,7 @@ def experience_update(request, pk):
             return redirect("experience_list")
 
     else:
-        form = DiplomeForm(instance=exp)
+        form = ExperienceForm(instance=exp)
 
     return render(request, "cv/experience_form.html", {
         "form": form
@@ -208,4 +209,74 @@ def competence_manage(request):
     return render(request, "cv/competence_form.html", {
         "form": form,
         "cv": cv
+    })
+
+@login_required
+def cv_builder(request):
+
+    cv = CV.objects.get(profil=request.user.profil)
+    settings, created = CVSettings.objects.get_or_create(cv=cv)
+
+    if request.method == "POST":
+
+        settings.template = request.POST.get("template")
+        settings.font_family = request.POST.get("font_family")
+
+        settings.show_profile = "show_profile" in request.POST
+        settings.show_diplomes = "show_diplomes" in request.POST
+        settings.show_experiences = "show_experiences" in request.POST
+        settings.show_competences = "show_competences" in request.POST
+
+        settings.save()
+
+    return render(request, "cv/cv_builder.html", {
+        "cv": cv,
+        "settings": settings,
+        "profil": request.user.profil,
+        "diplomes": cv.diplomes.all(),
+        "experiences": cv.experiences.all(),
+        "competences": cv.competences.all(),
+    })
+
+@login_required
+def cv_view(request):
+
+    cv = CV.objects.get(profil=request.user.profil)
+    settings, created = cv.settings.object.get_or_create(cv=cv)
+
+    template_map = {
+        "minimal": "cv/minimal.html",
+        "modern": "cv/modern.html",
+        "future": "cv/future.html",
+    }
+
+    return render(request, template_map.get(settings.template, "cv/templates/minimal.html"), {
+        "cv": cv,
+        "profil": request.user.profil,
+        "diplomes": cv.diplomes.all(),
+        "experiences": cv.experiences.all(),
+        "competences": cv.competences.all(),
+    })
+
+@xframe_options_exempt
+@login_required
+def cv_preview(request):
+
+    cv = CV.objects.get(profil=request.user.profil)
+
+    template = request.GET.get("template", "minimal")
+
+    template_map = {
+        "minimal": "cv/minimal.html",
+        "modern": "cv/modern.html",
+        "future": "cv/future.html",
+    }
+
+    return render(request, template_map.get(template, "cv/minimal.html"), {
+        "cv": cv,
+        "profil": request.user.profil,
+        "diplomes": cv.diplomes.all(),
+        "experiences": cv.experiences.all(),
+        "competences": cv.competences.all(),
+        "template": template,
     })

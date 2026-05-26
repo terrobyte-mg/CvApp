@@ -1,0 +1,234 @@
+/* ==========================================================================
+   CV MODERNE - FEUILLE DE STYLE
+   ========================================================================== */
+
+/* Variables de Design pour changer facilement les couleurs */
+:root {
+    --primary-color: #1e3a8a;       /* Bleu moderne (Couleur accent) */
+    --text-dark: #1f2937;           /* Gris presque noir pour le texte principal */
+    --text-light: #4b5563;          /* Gris intermédiaire pour les descriptions */
+    --sidebar-bg: #f3f4f6;          /* Gris très clair pour le fond de la sidebar */
+    --sidebar-text: #111827;
+    --badge-bg: #e5e7eb;            /* Fond des badges de compétences */
+}
+
+/* 1. CONFIGURATION DU CONTENEUR PRINCIPAL */
+.cv-moderne {
+    display: grid;
+    grid-template-columns: 280px 1fr; /* Barre latérale fixe à 280px, le reste pour le contenu */
+    max-width: 850px;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Légère ombre pour détacher le CV */
+    font-family: 'Poppins', 'Open Sans', Arial, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* 2. BARRE LATÉRALE (GAUCHE) */
+.cv-sidebar {
+    background-color: var(--sidebar-bg);
+    padding: 40px 25px;
+    color: var(--sidebar-text);
+}
+
+/* Conteneur et style de la Photo */
+.profile-photo-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sections de la Sidebar */
+.sidebar-section {
+    margin-bottom: 35px;
+}
+
+.sidebar-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+}
+
+/* Liste de contacts */
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-list li {
+    font-size: 13px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    word-break: break-word; /* Évite que les longs emails dépassent */
+}
+
+.contact-list .icon {
+    margin-right: 10px;
+    font-size: 14px;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+/* Badges de Compétences */
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* Espace entre les badges */
+}
+
+.skill-badge {
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #ffffff;
+    color: var(--text-dark);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+
+/* 3. CONTENU PRINCIPAL (DROITE) */
+.cv-main {
+    padding: 40px 40px;
+    background: #ffffff;
+}
+
+/* En-tête Principal */
+.main-header {
+    margin-bottom: 35px;
+}
+
+.main-header .name {
+    font-size: 34px;
+    font-weight: 800;
+    color: #000000;
+    line-height: 1.1;
+    margin-bottom: 5px;
+}
+
+.main-header .professional-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.main-header .intro {
+    font-size: 13.5px;
+    color: var(--text-light);
+    text-align: justify;
+}
+
+/* Titres des grandes sections (Expériences / Diplômes) */
+.main-section {
+    margin-bottom: 35px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Petite barre de couleur sous le titre de section */
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+/* Structure des blocs de la Timeline (Expériences et Diplômes) */
+.timeline-item {
+    margin-bottom: 22px;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+}
+
+.job-title, .degree-title {
+    font-size: 14.5px;
+    color: #000000;
+    margin: 0;
+}
+
+.job-title .company {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.job-date, .degree-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    background-color: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+
+.job-meta, .degree-meta {
+    font-size: 12px;
+    color: var(--text-light);
+    font-style: italic;
+    margin: 0 0 6px 0;
+}
+
+.job-desc, .degree-desc {
+    font-size: 13px;
+    color: var(--text-dark);
+    margin: 0;
+    text-align: justify;
+}
+
+/* 4. RESPONSIVE DESIGN (Pour l'iframe ou écrans mobiles) */
+@media (max-width: 768px) {
+    .cv-moderne {
+        grid-template-columns: 1fr; /* On passe sur une seule colonne si l'écran est petit */
+    }
+    
+    .cv-sidebar {
+        padding: 30px;
+    }
+    
+    .timeline-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .job-date, .degree-date {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}

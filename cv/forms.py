@@ -17,6 +17,8 @@ class DiplomeForm(forms.ModelForm):
             'description'
         ]
 
+        
+
 class ExperienceForm(forms.ModelForm):
 
     class Meta:

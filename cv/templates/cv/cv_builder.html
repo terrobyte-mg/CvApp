@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="builder-layout">
+
+    <div class="builder-controls">
+        <h3>Templates</h3>
+        <button onclick="changeTemplate('minimal')">Minimaliste</button>
+        <button onclick="changeTemplate('modern')">Moderne</button>
+        <button onclick="changeTemplate('future')">Futuriste</button>
+
+        <hr>
+
+        <h3>Actions</h3>
+        <a href="{% url 'cv_manager' %}">Gérer le CV</a>
+    </div>
+
+    <div class="builder-preview">
+        <iframe
+            id="cvFrame"
+            src="{% url 'cv_preview' %}?template=minimal"
+            style="width:100%; height:90vh; border:none;"
+        ></iframe>
+    </div>
+
+</div>
+
+<script>
+// On définit la fonction globalement dès le départ pour que le 'onclick' du HTML la trouve
+function changeTemplate(name) {
+    const iframe = document.getElementById("cvFrame");
+    if (iframe) {
+        // Version propre pour modifier l'URL avec Django
+        iframe.src = "{% url 'cv_preview' %}?template=" + name;
+        console.log("Nouveau template chargé : " + name);
+    }
+}
+</script>
+{% endblock %}

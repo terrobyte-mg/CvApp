@@ -1,0 +1,120 @@
+{% extends "base_cv.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/cv_modern.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="cv-moderne">
+
+    <aside class="cv-sidebar">
+        
+        {% if profil.photo %}
+        <div class="profile-photo-container">
+            <img src="{{ profil.photo.url }}" alt="Photo de {{ profil.prenom }} {{ profil.nom }}" class="profile-photo">
+        </div>
+        {% endif %}
+
+        <section class="sidebar-section">
+            <h3 class="sidebar-title">Contact</h3>
+            <ul class="contact-list">
+                <li>
+                    <span class="icon">✉</span> 
+                    <span class="text">{{ profil.email }}</span>
+                </li>
+                {% if profil.telephone %}
+                <li>
+                    <span class="icon">📞</span> 
+                    <span class="text">{{ profil.telephone }}</span>
+                </li>
+                {% endif %}
+                {% if profil.adresse %}
+                <li>
+                    <span class="icon">📍</span> 
+                    <span class="text">{{ profil.adresse }}</span>
+                </li>
+                {% endif %}
+            </ul>
+        </section>
+
+        {% if competences %}
+        <section class="sidebar-section">
+            <h3 class="sidebar-title">Compétences</h3>
+            <div class="skills-container">
+                {% for c in competences %}
+                    <span class="skill-badge">{{ c.nom }}</span>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+    </aside>
+
+    <main class="cv-main">
+        
+        <header class="main-header">
+            <h1 class="name">{{ profil.prenom }} {{ profil.nom }}</h1>
+            <h2 class="professional-title">{{ cv.titre }}</h2>
+            
+            {% if cv.introduction %}
+                <p class="intro">{{ cv.introduction|linebreaksbr }}</p>
+            {% endif %}
+        </header>
+
+        {% if experiences %}
+        <section class="main-section">
+            <h3 class="section-title">Expériences Professionnelles</h3>
+            
+            {% for e in experiences %}
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h4 class="job-title">
+                            <strong>{{ e.poste }}</strong> 
+                            <span class="company">@ {{ e.entreprise }}</span>
+                        </h4>
+                        <span class="job-date">
+                            {{ e.date_debut|date:"M Y" }} — {% if e.poste_actuel %}Présent{% else %}{{ e.date_fin|date:"M Y" }}{% endif %}
+                        </span>
+                    </div>
+                    
+                    {% if e.ville %}
+                        <p class="job-meta">{{ e.ville }} &bull; {{ e.get_type_contrat_display }}</p>
+                    {% endif %}
+                    
+                    {% if e.description %}
+                        <p class="job-desc">{{ e.description|linebreaksbr }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+
+        {% if diplomes %}
+        <section class="main-section">
+            <h3 class="section-title">Diplômes & Formations</h3>
+            
+            {% for d in diplomes %}
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h4 class="degree-title"><strong>{{ d.titre }}</strong></h4>
+                        <span class="degree-date">
+                            {{ d.annee_debut }} — {% if d.en_cours %}En cours{% else %}{{ d.annee_obtention }}{% endif %}
+                        </span>
+                    </div>
+                    <p class="degree-meta">
+                        {{ d.etablissement }}{% if d.specialite %} &bull; Spécialité : {{ d.specialite }}{% endif %}
+                    </p>
+                    
+                    {% if d.description %}
+                        <p class="degree-desc">{{ d.description|linebreaksbr }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+
+    </main>
+
+</div>
+{% endblock %}

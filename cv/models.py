@@ -40,6 +40,39 @@ class CV(models.Model):
     def __str__(self):
         return f"CV - {self.profil.user.username} ({self.titre})"
     
+class CVSettings(models.Model):
+
+    cv = models.OneToOneField(
+        "CV",
+        on_delete=models.CASCADE,
+        related_name="settings"
+    )
+
+    TEMPLATE_CHOICES = [
+        ("minimal", "Minimaliste"),
+        ("modern", "Moderne"),
+        ("future", "Futuriste"),
+    ]
+
+    template = models.CharField(
+        max_length=20,
+        choices=TEMPLATE_CHOICES,
+        default="minimal"
+    )
+
+    font_family = models.CharField(
+        max_length=100,
+        default="Arial"
+    )
+
+    show_profile = models.BooleanField(default=True)
+    show_diplomes = models.BooleanField(default=True)
+    show_experiences = models.BooleanField(default=True)
+    show_competences = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Settings CV {self.cv.id}"
+    
 
 class Diplome(models.Model):
     NIVEAU_CHOICES = [
