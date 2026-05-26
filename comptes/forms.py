@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 
+from comptes.models import Profil
+
 
 class RegisterForm(forms.ModelForm):
 
@@ -87,3 +89,9 @@ class LoginForm(AuthenticationForm):
             }
         )
     )
+
+class ProfilForm(forms.ModelForm):
+
+    class Meta:
+        model = Profil
+        fields = ['nom', 'prenom', 'adresse', 'bio', 'photo', 'telephone']

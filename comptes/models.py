@@ -13,13 +13,11 @@ class Profil(models.Model):
 
     nom = models.CharField(
         max_length=100,
-        blank=True,
         help_text="Nom complet de l'utilisateur"
     )
 
     prenom = models.CharField(
         max_length=100,
-        blank=True,
         help_text="Prénom de l'utilisateur"
     )
 
@@ -41,6 +39,8 @@ class Profil(models.Model):
         blank=True,
         null=True
     )
+
+    onboarding_done = models.BooleanField(default=False)
     
     def __str__(self):
         return f"Profil de {self.user.username}"

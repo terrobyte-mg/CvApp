@@ -11,21 +11,40 @@
 
 <div class="dashboard-wrapper">
 
+    <!-- HEADER -->
     <div class="dashboard-header">
 
-        <h1>
-            Bienvenue, {{ user.username }} 👋
-        </h1>
+        <h1>Bienvenue, {{ user.username }}</h1>
 
-        <p>
-            Gère ton CV professionnel.
-        </p>
+        <p>Gère ton CV professionnel simplement.</p>
 
     </div>
 
-    {% if cv %}
+    <!-- ============================= -->
+    <!-- CAS 1 : AUCUN CV -->
+    <!-- ============================= -->
 
-        <!-- SI LE CV EXISTE -->
+    {% if not cv %}
+
+        <div class="empty-state">
+
+            <iconify-icon icon="lucide:file-plus-2" class="empty-icon"></iconify-icon>
+
+            <h2>Aucun CV trouvé</h2>
+
+            <p>Tu n’as pas encore créé ton CV.</p>
+
+            <a href="{% url 'cv_edit' %}" class="btn-primary">
+                Créer mon CV
+            </a>
+
+        </div>
+
+    {% else %}
+
+        <!-- ============================= -->
+        <!-- CV EXISTANT -->
+        <!-- ============================= -->
 
         <div class="cv-card">
 
@@ -35,59 +54,112 @@
 
             <div class="cv-info">
 
-                <h2>
-                    {{ cv.titre }}
-                </h2>
+                <h2>{{ cv.titre }}</h2>
 
                 <p>
-                    Dernière modification :
+                    Dernière mise à jour :
                     {{ cv.updated_at|date:"d M Y" }}
                 </p>
 
             </div>
 
-            <div class="cv-actions">
+        </div>
 
-                <a href="#" class="btn-primary">
-                    Modifier
+        <!-- ============================= -->
+        <!-- ACTIONS PRINCIPALES -->
+        <!-- ============================= -->
+
+        <div class="dashboard-actions">
+
+            <a href="#" class="action-card primary">
+                Gérer mes informations CV
+            </a>
+
+            <a href="#" class="action-card">
+                Gérer mon CV
+            </a>
+
+            <a href="#" class="action-card">
+                Voir mon CV
+            </a>
+
+        </div>
+
+        <!-- ============================= -->
+        <!-- COMPLETION RAPIDE -->
+        <!-- ============================= -->
+
+        <div class="cv-progress">
+
+            <h3>Compléter ton CV</h3>
+
+            <div class="progress-grid">
+
+                <a href="#" class="progress-item">
+                    Profil
                 </a>
 
-                <a href="#" class="btn-secondary">
-                    Voir
+                <a href="#" class="progress-item">
+                    Diplômes
                 </a>
 
-                <a href="#" class="btn-secondary">
-                    Exporter
+                <a href="#" class="progress-item">
+                    Expériences
+                </a>
+
+                <a href="#" class="progress-item">
+                    Compétences
                 </a>
 
             </div>
 
         </div>
 
-    {% else %}
+    {% endif %}
 
-        <!-- SI AUCUN CV -->
+    <!-- ============================= -->
+    <!-- ONBOARDING MODAL -->
+    <!-- ============================= -->
 
-        <div class="empty-state">
+    {% if not profil.onboarding_done %}
 
-            <iconify-icon
-                icon="lucide:file-plus-2"
-                class="empty-icon">
-            </iconify-icon>
+        <div id="onboarding-modal" class="modal">
 
-            <h2>
-                Aucun CV trouvé
-            </h2>
+            <div class="modal-content">
 
-            <p>
-                Commence dès maintenant à créer ton CV professionnel.
-            </p>
+                <h2>Compléter ton profil ?</h2>
 
-            <a href="#" class="btn-primary">
-                Créer mon CV
-            </a>
+                <p>Ces informations permettent de générer ton CV automatiquement.</p>
+
+                <div class="modal-actions">
+
+                    <a href="{% url 'onboarding' %}" class="btn-primary">
+                        Oui
+                    </a>
+
+                    <a href="#" onclick="closeModal()" class="btn-secondary">
+                        Plus tard
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
+
+        <script>
+            function closeModal() {
+                document.getElementById("onboarding-modal").style.display = "none";
+                localStorage.setItem("hide_onboarding", "1");
+            }
+
+            window.onload = function () {
+                if (localStorage.getItem("hide_onboarding") === "1") {
+                    const modal = document.getElementById("onboarding-modal");
+                    if (modal) modal.style.display = "none";
+                }
+            }
+        </script>
 
     {% endif %}
 

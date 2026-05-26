@@ -3,7 +3,15 @@ from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.conf import settings
 
-from .forms import RegisterForm, LoginForm
+from django.core.files.storage import FileSystemStorage
+
+from comptes.models import Profil
+from cv.models import CV
+
+from .forms import RegisterForm, LoginForm, ProfilForm
+from cv.forms import DiplomeForm, ExperienceForm, CompetenceForm
+
+from formtools.wizard.views import SessionWizardView
 
 
 def auth_view(request):
@@ -61,4 +69,74 @@ def auth_view(request):
 
 
 def dashboard_view(request):
-    return render(request, 'comptes/dashboard.html')
+
+    profil, _ = Profil.objects.get_or_create(user=request.user)
+
+    cv = CV.objects.filter(profil=profil).first()
+    return render(request, 'comptes/dashboard.html', {
+        "cv": cv,
+        "profil": profil
+    })
+
+FORMS = [
+    ("profil", ProfilForm),
+    ("diplome", DiplomeForm),
+    ("experience", ExperienceForm),
+    ("competence", CompetenceForm),
+]
+
+wizard_storage = FileSystemStorage(location='media/temp')
+
+class OnboardingWizard(SessionWizardView):
+    form_list = FORMS
+    template_name = "comptes/onboarding.html"
+
+    file_storage = wizard_storage
+
+    def done(self, form_list, **kwargs):
+
+        user = self.request.user
+        profil = user.profil
+
+        profil.onboarding_done = True
+        profil.save()
+
+        cv, _ = CV.objects.get_or_create(profil=profil)
+
+        for form in form_list:
+
+            # ===== PROFIL =====
+            if isinstance(form, ProfilForm):
+                
+                data = form.cleaned_data
+
+                profil.nom = data["nom"]
+                profil.prenom = data["prenom"]
+                profil.telephone = data["telephone"]
+                profil.adresse = data["adresse"]
+                profil.bio = data["bio"]
+                profil.photo = data["photo"]
+
+                profil.save()
+
+            # ===== DIPLOME =====
+            elif isinstance(form, DiplomeForm):
+
+                if form.has_changed():
+                    obj = form.save(commit=False)
+                    obj.cv = cv
+                    obj.save()
+
+            # ===== EXPERIENCE =====
+            elif isinstance(form, ExperienceForm):
+
+                if form.has_changed():
+                    obj = form.save(commit=False)
+                    obj.cv = cv
+                    obj.save()
+
+            # ===== COMPETENCE =====
+            elif isinstance(form, CompetenceForm):
+                cv.competences.set(form.cleaned_data["competences"])
+
+        return redirect("dashboard")

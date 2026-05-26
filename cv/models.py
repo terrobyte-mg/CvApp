@@ -125,18 +125,18 @@ class Experience(models.Model):
         related_name='experiences'
     )
 
-    poste = models.CharField(max_length=200, verbose_name="Intitulé du poste")
-    entreprise = models.CharField(max_length=200, verbose_name="Entreprise / Organisation")
+    poste = models.CharField(max_length=200, verbose_name="Intitulé du poste", blank=True)
+    entreprise = models.CharField(max_length=200, verbose_name="Entreprise / Organisation", blank=True)
     ville = models.CharField(max_length=100, blank=True, null=True, verbose_name="Ville")
     type_contrat = models.CharField(
         max_length=15, 
-        choices=CONTRAT_CHOICES, 
-        default='CDI',
-        verbose_name="Type de contrat"
+        choices=CONTRAT_CHOICES,
+        verbose_name="Type de contrat",
+        blank=True
     )
-    date_debut = models.DateField(verbose_name="Date de début")
+    date_debut = models.DateField(verbose_name="Date de début", blank=True)
     date_fin = models.DateField(blank=True, null=True, verbose_name="Date de fin")
-    poste_actuel = models.BooleanField(default=False, verbose_name="J'occupe actuellement ce poste")
+    poste_actuel = models.BooleanField(default=False, verbose_name="J'occupe actuellement ce poste", blank=True)
     description = models.TextField(
         blank=True, 
         null=True, 
@@ -157,7 +157,7 @@ class Experience(models.Model):
                 "date_fin": "Un poste actuel ne peut pas avoir de date de fin renseignée."
             })
         
-        if not self.poste_actuel and not self.date_fin:
+        if not self.poste_actuel and not self.date_fin and self.poste or self.entreprise or self.ville:
             raise ValidationError({
                 "date_fin": "Veuillez indiquer une date de fin ou cocher poste actuel."
             })
