@@ -26,7 +26,7 @@
             </div>
             <h2>Prêt à booster ta carrière ?</h2>
             <p>Crée ton premier CV professionnel dès maintenant.</p>
-            <a href="{% url 'cv_edit' %}" class="btn-primary">
+            <a href="{% url 'cv_manager' %}" class="btn-primary">
                 <iconify-icon icon="lucide:plus"></iconify-icon> Créer mon CV
             </a>
         </div>
@@ -44,7 +44,7 @@
                     <p>Mise à jour le {{ cv.updated_at|date:"d F Y" }}</p>
                 </div>
                 <div class="cv-quick-actions">
-                    <a href="#" class="btn-icon" title="Voir mon CV"><iconify-icon icon="lucide:eye"></iconify-icon></a>
+                    <a href="{% url 'cv_view' %}" class="btn-icon" title="Voir mon CV" target="_blank"><iconify-icon icon="lucide:eye"></iconify-icon></a>
                 </div>
             </div>
         </section>
@@ -109,4 +109,10 @@
         </div>
     {% endif %}
 </div>
+
+<script>
+    function closeModal() {
+        document.getElementsByClassName("modal-actions").innerHTML = "";
+    }
+</script>
 {% endblock %}

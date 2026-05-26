@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     cv_manager,
     profil_edit,
+    cv_info_edit,
     diplome_list,
     diplome_create,
     diplome_update,
@@ -12,12 +13,14 @@ from .views import (
     experience_delete,
     competence_manage,
     cv_builder,
+    cv_view,
     cv_preview,
 )
 
 urlpatterns = [
     path("manager/", cv_manager, name="cv_manager"),
     path("profil/", profil_edit, name="profil_edit"),
+    path("info/", cv_info_edit, name="cv_info_edit"),
     path("diplomes/", diplome_list, name="diplome_list"),
     path("diplomes/add/", diplome_create, name="diplome_create"),
     path("diplomes/<int:pk>/edit/", diplome_update, name="diplome_update"),
@@ -28,5 +31,6 @@ urlpatterns = [
     path("experiences/<int:pk>/delete/", experience_delete, name="experience_delete"),
     path("competences/", competence_manage, name="competence_manage"),
     path("builder/", cv_builder, name="cv_builder"),
-    path("preview/", cv_preview, name="cv_preview")
+    path("view/", cv_view, name="cv_view"),
+    path("preview/", cv_preview, name="cv_preview"),
 ]
