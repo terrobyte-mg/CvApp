@@ -14,13 +14,9 @@
     <!-- HEADER -->
     <div class="onboarding-header">
 
-        <h1>
-            Complète ton profil
-        </h1>
+        <h1>Complète ton profil</h1>
 
-        <p>
-            Étape {{ wizard.steps.step1 }} / {{ wizard.steps.count }}
-        </p>
+        <p>Étape {{ wizard.steps.step1 }} / {{ wizard.steps.count }}</p>
 
         <!-- Progress bar simple -->
         <div class="progress-bar">
@@ -55,9 +51,7 @@
 
             <!-- FORM FIELDS -->
             <div class="form-fields">
-
                 {{ wizard.form.as_p }}
-
             </div>
 
         </div>
@@ -71,21 +65,17 @@
                         value="{{ wizard.steps.prev }}"
                         type="submit"
                         class="btn-secondary">
-
                     ← Précédent
-
                 </button>
 
             {% endif %}
 
             <button type="submit" class="btn-primary">
-
                 {% if wizard.steps.last %}
                     Terminer
                 {% else %}
                     Suivant →
                 {% endif %}
-
             </button>
 
         </div>
