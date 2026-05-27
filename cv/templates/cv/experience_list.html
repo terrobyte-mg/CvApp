@@ -1,28 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mes expériences{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<div class="cv-manager-wrapper">
+<div class="list-wrapper">
 
-    <h1>Mes expériences</h1>
+    <div class="list-header">
+        <h1>Mes expériences</h1>
+        <a href="{% url 'experience_create' %}" class="add-button">
+            <iconify-icon icon="lucide:plus"></iconify-icon>
+            Ajouter une expérience
+        </a>
+    </div>
 
-    <a href="{% url 'experience_create' %}" class="btn-primary">
-        Ajouter une expérience
-    </a>
-
-    <div class="cv-grid">
+    <div class="list-grid">
 
         {% for e in experiences %}
 
-            <div class="manager-card">
+            <div class="list-card">
 
                 <h3>{{ e.poste }}</h3>
 
                 <p>{{ e.entreprise }}</p>
-
                 <p>{{ e.type_contrat }}</p>
 
-                <p>
+                <p class="meta-date">
                     {{ e.date_debut }} - 
                     {% if e.poste_actuel %}
                         Actuel
@@ -31,23 +39,37 @@
                     {% endif %}
                 </p>
 
-                <a href="{% url 'experience_update' e.id %}">Modifier</a>
-                <a href="{% url 'experience_delete' e.id %}">Supprimer</a>
+                {% if e.poste_actuel %}
+                    <span class="meta-status">Poste actuel</span>
+                {% endif %}
 
+                <div class="list-card-actions">
+                    <a href="{% url 'experience_update' e.id %}" class="btn-edit">
+                        <iconify-icon icon="lucide:edit"></iconify-icon>
+                        Modifier
+                    </a>
+                    <a href="{% url 'experience_delete' e.id %}" class="btn-delete">
+                        <iconify-icon icon="lucide:trash"></iconify-icon>
+                        Supprimer
+                    </a>
+                </div>
 
             </div>
 
         {% empty %}
 
-            <p>Aucune expérience ajoutée.</p>
+            <div class="empty-state">
+                <p>Aucune expérience ajoutée. Commence par créer ta première expérience.</p>
+            </div>
 
         {% endfor %}
 
-        <a href="{% url 'cv_manager' %}" class="btn-secondary">
-            Retour
-        </a>
-
     </div>
+
+    <a href="{% url 'cv_manager' %}" class="btn-back">
+        <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+        Retour au manager
+    </a>
 
 </div>
 

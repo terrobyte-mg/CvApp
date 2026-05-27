@@ -1,14 +1,33 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Édition{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
+{% endblock %}
 
 {% block content %}
 
 <div class="onboarding-wrapper">
 
-    <h1>Expérience professionnelle</h1>
+    <div class="onboarding-header">
+        {% if "cv_info" in request.path %}
+            <h1>Titre & Introduction</h1>
+            <p>Accroche et objectif professionnel</p>
+        {% elif "diplome" in request.path %}
+            <h1>Ajouter un diplôme</h1>
+            <p>Renseigne les détails de ta formation</p>
+        {% elif "experience" in request.path %}
+            <h1>Ajouter une expérience</h1>
+            <p>Renseigne les détails de ton poste</p>
+        {% endif %}
+    </div>
 
     <div class="form-container">
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
+
             {% csrf_token %}
 
             <div class="form-fields">
@@ -18,10 +37,12 @@
             <div class="wizard-actions">
 
                 <button type="submit" class="btn-primary">
+                    <iconify-icon icon="lucide:save"></iconify-icon>
                     Enregistrer
                 </button>
 
-                <a href="{% url 'experience_list' %}" class="btn-secondary">
+                <a href="{% url 'cv_manager' %}" class="btn-secondary">
+                    <iconify-icon icon="lucide:arrow-left"></iconify-icon>
                     Retour
                 </a>
 
