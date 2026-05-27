@@ -1,45 +1,64 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mes diplômes{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<div class="cv-manager-wrapper">
+<div class="list-wrapper">
 
-    <h1>Mes diplômes</h1>
+    <div class="list-header">
+        <h1>Mes diplômes</h1>
+        <a href="{% url 'diplome_create' %}" class="add-button">
+            <iconify-icon icon="lucide:plus"></iconify-icon>
+            Ajouter un diplôme
+        </a>
+    </div>
 
-    <a href="{% url 'diplome_create' %}" class="btn-primary">
-        Ajouter un diplôme
-    </a>
-
-    <div class="cv-grid">
+    <div class="list-grid">
 
         {% for d in diplomes %}
 
-            <div class="manager-card">
+            <div class="list-card">
 
                 <h3>{{ d.titre }}</h3>
 
                 <p>{{ d.etablissement }}</p>
-
                 <p>{{ d.niveau }}</p>
 
-                <p>{{ d.annee_obtention|default:"En cours" }}</p>
+                <p class="meta-date">{{ d.annee_obtention|default:"En cours" }}</p>
 
-                <a href="{% url 'diplome_update' d.id %}">Modifier</a>
-                <a href="{% url 'diplome_delete' d.id %}">Supprimer</a>
+                <div class="list-card-actions">
+                    <a href="{% url 'diplome_update' d.id %}" class="btn-edit">
+                        <iconify-icon icon="lucide:edit"></iconify-icon>
+                        Modifier
+                    </a>
+                    <a href="{% url 'diplome_delete' d.id %}" class="btn-delete">
+                        <iconify-icon icon="lucide:trash"></iconify-icon>
+                        Supprimer
+                    </a>
+                </div>
 
             </div>
 
         {% empty %}
 
-            <p>Aucun diplôme ajouté.</p>
+            <div class="empty-state">
+                <p>Aucun diplôme ajouté. Commence par créer ton premier diplôme.</p>
+            </div>
 
         {% endfor %}
 
-        <a href="{% url 'cv_manager' %}" class="btn-secondary">
-            Retour
-        </a>
-
     </div>
+
+    <a href="{% url 'cv_manager' %}" class="btn-back">
+        <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+        Retour au manager
+    </a>
 
 </div>
 

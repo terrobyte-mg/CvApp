@@ -1,42 +1,40 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Compétences{% endblock %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/competence_form.css' }">
+    <link rel="stylesheet" href="{% static 'css/competence_form.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="onboarding-wrapper">
+<div class="competence-wrapper">
 
-    <div class="onboarding-header">
-
+    <div class="competence-header">
         <h1>Mes compétences</h1>
-
         <p>Sélectionne les compétences à afficher dans ton CV</p>
-
     </div>
 
-    <div class="form-container">
+    <div class="competence-container">
 
-        <form method="POST">
+        <form method="POST" class="competence-form">
 
             {% csrf_token %}
 
-            <div class="form-fields">
-
+            <div class="competence-list-wrapper">
                 {{ form.competences }}
-
             </div>
 
-            <div class="wizard-actions">
+            <div class="form-actions">
 
                 <button type="submit" class="btn-primary">
+                    <iconify-icon icon="lucide:save"></iconify-icon>
                     Enregistrer
                 </button>
 
                 <a href="{% url 'cv_manager' %}" class="btn-secondary">
+                    <iconify-icon icon="lucide:arrow-left"></iconify-icon>
                     Retour
                 </a>
 

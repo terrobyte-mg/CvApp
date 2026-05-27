@@ -13,55 +13,113 @@
     <div class="cv-manager-header">
         <h1>Gestion de ton CV</h1>
         <p>Modifie toutes les informations utilisées pour générer ton CV</p>
-        <div style="margin-top: 12px;">
-            <a href="{% url 'cv_view' %}" class="btn-primary" target="_blank">👁 Voir mon CV</a>
-            <a href="{% url 'cv_builder' %}" class="btn-ghost" style="margin-left:8px;">🎨 Design</a>
+        <div class="header-actions">
+            <a href="{% url 'cv_view' %}" class="btn-primary" target="_blank">
+                <iconify-icon icon="lucide:eye"></iconify-icon> Voir mon CV
+            </a>
+            <a href="{% url 'cv_builder' %}" class="btn-secondary">
+                <iconify-icon icon="lucide:palette"></iconify-icon> Design
+            </a>
         </div>
     </div>
 
-    <div class="cv-manager-grid">
+    <!-- SECTIONS ACTIVES -->
+    <div class="sections-container">
+        <div class="section-title-bar">
+            <h2>Mes sections</h2>
+            <span class="section-count">5 sections</span>
+        </div>
 
-        <a href="{% url 'profil_edit' %}" class="manager-card">
-            <h3>Profil</h3>
-            <p>Informations personnelles</p>
-        </a>
+        <div class="cv-manager-grid">
 
-        <a href="{% url 'cv_info_edit' %}" class="manager-card">
-            <h3>Titre & Introduction</h3>
-            <p>Accroche et objectif professionnel</p>
-        </a>
+            <a href="{% url 'profil_edit' %}" class="manager-card">
+                <div class="card-icon">
+                    <iconify-icon icon="lucide:user"></iconify-icon>
+                </div>
+                <h3>Profil</h3>
+                <p>Informations personnelles</p>
+                <div class="card-arrow">
+                    <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                </div>
+            </a>
 
-        <a href="{% url 'diplome_list' %}" class="manager-card">
-            <h3>Diplômes</h3>
-            <p>Formations et études</p>
-        </a>
+            <a href="{% url 'cv_info_edit' %}" class="manager-card">
+                <div class="card-icon">
+                    <iconify-icon icon="lucide:briefcase"></iconify-icon>
+                </div>
+                <h3>Titre & Introduction</h3>
+                <p>Accroche et objectif</p>
+                <div class="card-arrow">
+                    <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                </div>
+            </a>
 
-        <a href="{% url 'experience_list' %}" class="manager-card">
-            <h3>Expériences</h3>
-            <p>Parcours professionnel</p>
-        </a>
+            <a href="{% url 'diplome_list' %}" class="manager-card">
+                <div class="card-icon">
+                    <iconify-icon icon="lucide:graduation-cap"></iconify-icon>
+                </div>
+                <h3>Diplômes</h3>
+                <p>Formations et études</p>
+                <div class="card-arrow">
+                    <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                </div>
+            </a>
 
-        <a href="{% url 'competence_manage' %}" class="manager-card">
-            <h3>Compétences</h3>
-            <p>Technologies et savoir-faire</p>
-        </a>
+            <a href="{% url 'experience_list' %}" class="manager-card">
+                <div class="card-icon">
+                    <iconify-icon icon="lucide:building-2"></iconify-icon>
+                </div>
+                <h3>Expériences</h3>
+                <p>Parcours professionnel</p>
+                <div class="card-arrow">
+                    <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                </div>
+            </a>
 
+            <a href="{% url 'competence_manage' %}" class="manager-card">
+                <div class="card-icon">
+                    <iconify-icon icon="lucide:sparkles"></iconify-icon>
+                </div>
+                <h3>Compétences</h3>
+                <p>Technologies et savoir-faire</p>
+                <div class="card-arrow">
+                    <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                </div>
+            </a>
+
+        </div>
     </div>
 
+    <!-- SECTIONS À VENIR -->
     <div class="cv-manager-future">
-        <h2>Sections à venir</h2>
+        <div class="section-title-bar">
+            <h2>Sections à venir</h2>
+            <span class="section-count-disabled">3 sections</span>
+        </div>
         <div class="cv-manager-grid">
             <div class="manager-card disabled">
+                <div class="card-icon disabled-icon">
+                    <iconify-icon icon="lucide:globe"></iconify-icon>
+                </div>
                 <h3>Langues</h3>
                 <p>Anglais, Français, etc.</p>
+                <div class="coming-badge">Bientôt</div>
             </div>
             <div class="manager-card disabled">
+                <div class="card-icon disabled-icon">
+                    <iconify-icon icon="lucide:code-2"></iconify-icon>
+                </div>
                 <h3>Projets</h3>
                 <p>Réalisations personnelles</p>
+                <div class="coming-badge">Bientôt</div>
             </div>
             <div class="manager-card disabled">
+                <div class="card-icon disabled-icon">
+                    <iconify-icon icon="lucide:heart"></iconify-icon>
+                </div>
                 <h3>Loisirs</h3>
                 <p>Centres d'intérêt</p>
+                <div class="coming-badge">Bientôt</div>
             </div>
         </div>
     </div>

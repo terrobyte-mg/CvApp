@@ -3,17 +3,19 @@
 
 {% block title %}Profil{% endblock %}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
+    <link rel="stylesheet" href="{% static 'css/photo-upload.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="onboarding-wrapper">
 
     <!-- HEADER -->
     <div class="onboarding-header">
-
         <h1>Ton profil</h1>
-
         <p>Complète tes informations personnelles</p>
-
     </div>
 
     <!-- FORM -->
@@ -24,16 +26,73 @@
             {% csrf_token %}
 
             <div class="form-fields">
-                {{ form.as_p }}
+                {% for field in form %}
+                    {% if field.name == 'photo' %}
+                        <div class="photo-upload-wrapper">
+                            <label for="{{ field.id_for_label }}" style="display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; color: #e5e5e5; font-weight: 600; font-size: 0.95rem;">
+                                <iconify-icon icon="lucide:image" style="margin-right: 8px; font-size: 1.1rem;"></iconify-icon>
+                                {{ field.label }}
+                            </label>
+                            
+                            <div class="photo-upload-container">
+                                <div class="photo-preview-box" id="photoPreview">
+                                    {% if form.instance.photo %}
+                                        <img src="{{ form.instance.photo.url }}" alt="Photo actuelle">
+                                    {% else %}
+                                        <div class="photo-preview-placeholder">
+                                            <iconify-icon icon="lucide:image-plus"></iconify-icon>
+                                            <span>Aucune photo</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="photo-input-group">
+                                    {{ field }}
+                                    <div class="photo-help-text">
+                                        <strong>📸 Photo uniquement</strong><br>
+                                        Formats acceptés: JPG, PNG, WebP<br>
+                                        Taille maximale: 5 MB<br>
+                                        Conseil: Photo de visage recommandée
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if field.errors %}
+                                <ul class="photo-error-list">
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div>
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="helptext">{{ field.help_text|safe }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="errorlist">
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
 
             <div class="wizard-actions">
 
                 <button type="submit" class="btn-primary">
+                    <iconify-icon icon="lucide:save"></iconify-icon>
                     Enregistrer
                 </button>
 
                 <a href="{% url 'cv_manager' %}" class="btn-secondary">
+                    <iconify-icon icon="lucide:arrow-left"></iconify-icon>
                     Retour
                 </a>
 
@@ -44,5 +103,7 @@
     </div>
 
 </div>
+
+<script src="{% static 'js/photo-upload.js' %}"></script>
 
 {% endblock %}

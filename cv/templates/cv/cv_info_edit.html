@@ -1,33 +1,57 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Modifier les infos du CV{% endblock %}
+{% block title %}Édition{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="form-wrapper">
-    <div class="form-header">
-        <h1>Titre & Introduction</h1>
-        <p>Ces informations apparaissent en haut de ton CV</p>
+
+<div class="onboarding-wrapper">
+
+    <div class="onboarding-header">
+        {% if "cv_info" in request.path %}
+            <h1>Titre & Introduction</h1>
+            <p>Accroche et objectif professionnel</p>
+        {% elif "diplome" in request.path %}
+            <h1>Ajouter un diplôme</h1>
+            <p>Renseigne les détails de ta formation</p>
+        {% elif "experience" in request.path %}
+            <h1>Ajouter une expérience</h1>
+            <p>Renseigne les détails de ton poste</p>
+        {% endif %}
     </div>
 
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <div class="form-group">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field }}
-                {% if field.help_text %}
-                    <small class="help-text">{{ field.help_text }}</small>
-                {% endif %}
-                {% for error in field.errors %}
-                    <span class="field-error">{{ error }}</span>
-                {% endfor %}
+    <div class="form-container">
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-fields">
+                {{ form.as_p }}
             </div>
-        {% endfor %}
-        <div class="form-actions">
-            <button type="submit" class="btn-primary">Sauvegarder</button>
-            <a href="{% url 'cv_manager' %}" class="btn-ghost">Annuler</a>
-        </div>
-    </form>
+
+            <div class="wizard-actions">
+
+                <button type="submit" class="btn-primary">
+                    <iconify-icon icon="lucide:save"></iconify-icon>
+                    Enregistrer
+                </button>
+
+                <a href="{% url 'cv_manager' %}" class="btn-secondary">
+                    <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+                    Retour
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
+
 {% endblock %}

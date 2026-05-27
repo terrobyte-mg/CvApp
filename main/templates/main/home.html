@@ -4,10 +4,11 @@
 {% block title %}Accueil - CvApp{% endblock %}
 
 {% block extra_head %}
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
+
 <section class="hero-section">
     <!-- Éléments décoratifs (Halos) -->
     <div class="glow-orb orb-purple"></div>
@@ -18,13 +19,15 @@
         <h1>Crée ton <span class="text-gradient">CV professionnel</span> en quelques minutes</h1>
         <p>Simple. Rapide. Moderne. Propulse ta carrière avec un design qui se démarque.</p>
         {% if user.is_authenticated %}
-        <a href="{% url 'dashboard' %}">
-            <button class="btn-primary">Accéder à mon dashboard</button>
-        </a>
+            <a href="{% url 'dashboard' %}" class="btn-primary">
+                <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                Accéder à mon dashboard
+            </a>
         {% else %}
-        <a href="{% url 'auth' %}?mode=register">
-            <button class="btn-primary">Commencer gratuitement</button>
-        </a>
+            <a href="{% url 'auth' %}?mode=register" class="btn-primary">
+                <iconify-icon icon="lucide:sparkles"></iconify-icon>
+                Commencer gratuitement
+            </a>
         {% endif %}
     </div>
 
@@ -55,7 +58,7 @@
         <!-- Badge flottant supérieur -->
         <div class="floating-pill pill-top">
             <div class="pill-icon icon-blue">
-                <iconify-icon icon="mdi:check"></iconify-icon>
+                <iconify-icon icon="lucide:check-circle"></iconify-icon>
             </div>
             <div class="pill-stack">
                 <div class="skeleton-bar bar-tiny"></div>
@@ -66,7 +69,7 @@
         <!-- Badge flottant inférieur -->
         <div class="floating-pill pill-bottom">
             <div class="pill-icon icon-purple">
-                <iconify-icon icon="mdi:star"></iconify-icon>
+                <iconify-icon icon="lucide:star"></iconify-icon>
             </div>
             <div class="pill-stack">
                 <div class="skeleton-bar bar-small"></div>
@@ -75,4 +78,5 @@
         </div>
     </div>
 </section>
+
 {% endblock %}
