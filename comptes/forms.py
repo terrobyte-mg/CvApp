@@ -15,7 +15,8 @@ class RegisterForm(forms.ModelForm):
                 'placeholder': 'Mot de passe',
                 'id': 'register_password1'
             }
-        )
+        ),
+        min_length=8,
     )
 
     password2 = forms.CharField(
@@ -25,7 +26,8 @@ class RegisterForm(forms.ModelForm):
                 'placeholder': 'Confirmer le mot de passe',
                 'id': 'register_password2'
             }
-        )
+        ),
+        min_length=8,
     )
 
     class Meta:

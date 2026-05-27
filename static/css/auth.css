@@ -169,6 +169,10 @@
     outline: none;
 }
 
+.icon-eye-off {
+    display: none;
+}
+
 /* ===== ERROR TEXT ===== */
 
 .error-text {
