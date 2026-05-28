@@ -22,7 +22,7 @@
         <!-- EMPTY STATE : Plus visuel et centré -->
         <div class="empty-state">
             <div class="empty-icon-container">
-                <iconify-icon icon="lucide:file-plus-2" class="empty-icon"></iconify-icon>
+                {% include "icons/file-plus-2.html" with class="empty-icon" %}
             </div>
             <h2>Prêt à booster ta carrière ?</h2>
             <p>Crée ton premier CV professionnel dès maintenant.</p>
@@ -44,7 +44,7 @@
                     <p>Mise à jour le {{ cv.updated_at|date:"d F Y" }}</p>
                 </div>
                 <div class="cv-quick-actions">
-                    <a href="{% url 'cv_view' %}" class="btn-icon" title="Voir mon CV" target="_blank"><iconify-icon icon="lucide:eye"></iconify-icon></a>
+                    <a href="{% url 'cv_view' %}" class="btn-icon" title="Voir mon CV" target="_blank">{% include "icons/eye.html" %}</iconify-icon></a>
                 </div>
             </div>
         </section>
