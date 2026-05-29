@@ -8,8 +8,6 @@
     --text-muted: #94a3b8;
 }
 
-/* ===== WRAPPER ===== */
-
 .auth-wrapper {
     min-height: calc(100vh - 72px);
     display: flex;
@@ -83,6 +81,7 @@
 /* ===== FORM GROUPS ===== */
 
 .form-group {
+    position: relative;
     margin-bottom: 24px;
     width: 100%;
 }
@@ -126,6 +125,14 @@
     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), 0 0 24px rgba(99, 102, 241, 0.2);
 }
 
+.field-feedback {
+    position: absolute;
+    right: 12px;
+    top: 42px;
+    display: flex;
+    align-items: center;
+}
+
 /* ===== PASSWORD WRAPPER ===== */
 
 .form-group.password-wrapper {
@@ -143,9 +150,9 @@
 .toggle-password {
     position: absolute;
     right: 12px;
-    bottom: 14px;
-    height: 24px;
-    width: 24px;
+    top: 42px;
+    /* height: 24px;
+    width: 24px; */
     background: none;
     border: none;
     cursor: pointer;

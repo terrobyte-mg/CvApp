@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
@@ -30,6 +32,14 @@ class RegisterForm(forms.ModelForm):
         min_length=8,
     )
 
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'Adresse email',
+            }
+        )
+    )
+
     class Meta:
         
         model = User
@@ -38,8 +48,17 @@ class RegisterForm(forms.ModelForm):
 
         widgets = {
 
-            'username': forms.TextInput(attrs={'placeholder': 'Nom d\'utilisateur'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'Adresse email'})
+            'username': forms.TextInput(
+                attrs={
+                    'placeholder': 'Nom d\'utilisateur',
+                    'id': 'id_username'
+                }
+            ),
+            'email': forms.EmailInput(
+                attrs={
+                    'placeholder': 'Adresse email',
+                }
+            )
 
         }
     
@@ -50,7 +69,7 @@ class RegisterForm(forms.ModelForm):
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
 
-        if password1 != password2:
+        if password1 and password2 and password1 != password2:
             raise ValidationError("Les mots de passe ne correspondent pas.")
         
         return cleaned_data
@@ -58,6 +77,33 @@ class RegisterForm(forms.ModelForm):
     def clean_email(self):
 
         email = self.cleaned_data.get('email')
+
+        if not email:
+            raise ValidationError("Email requis.")
+        
+        email = email.lower().strip()
+
+        pattern = r'^[a-zA-Z0-9._%+-]{1,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,}$'
+
+        if not re.match(pattern, email):
+            raise ValidationError("Adresse email invalide.")
+        
+        username, domain = email.split('@')
+
+        if len(username) < 1:
+            raise ValidationError("Partie avant @ trop courte.")
+        
+        if len(domain.split('.')[0]) < 2:
+            raise ValidationError("Domaine email invalide.")
+        
+        blocked_domains = [
+            "mailinator.com",
+            "tempmail.com",
+            "guerrillamail.com"
+        ]
+
+        if domain in blocked_domains:
+            raise ValidationError("Emails temporaires nnon autorisés.")
 
         if User.objects.filter(email=email).exists():
             raise ValidationError("Cette adresse email est déjà utilisée.")

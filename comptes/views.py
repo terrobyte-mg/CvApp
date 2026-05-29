@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils.decorators import method_decorator
 
-from comptes.models import Profil
+from comptes.models import Profil, User
 from cv.models import CV
 
 from .forms import RegisterForm, LoginForm, ProfilForm
@@ -14,6 +14,8 @@ from cv.forms import DiplomeForm, ExperienceForm, CompetenceForm
 
 from formtools.wizard.views import SessionWizardView
 
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
 
 def auth_view(request):
     # Redirect authenticated users
@@ -124,3 +126,20 @@ class OnboardingWizard(SessionWizardView):
 
         messages.success(self.request, "Profil complété ! Ton CV est prêt. 🎉")
         return redirect("dashboard")
+
+@require_GET
+def check_username(request):
+    username = request.GET.get("username", "").strip()
+
+    if len(username) < 1:
+        return JsonResponse({
+            "available": False,
+            "message": "Trop court"
+        })
+    
+    exists = User.objects.filter(username=username).exists()
+
+    return JsonResponse({
+        "available": exists,
+        "message": "Pris" if exists else "Disponible"
+    })
