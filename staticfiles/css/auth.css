@@ -107,6 +107,11 @@
     font-size: 1rem;
     transition: all 0.3s ease;
     font-weight: 500;
+    box-sizing: border-box;
+}
+
+.form-group:has(.field-feedback) input {
+    padding-right: 50px;
 }
 
 .auth-form input::placeholder {
@@ -127,10 +132,21 @@
 
 .field-feedback {
     position: absolute;
-    right: 12px;
+    right: 16px;
     top: 42px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+}
+
+.field-feedback svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    color: inherit;
 }
 
 /* ===== PASSWORD WRAPPER ===== */
