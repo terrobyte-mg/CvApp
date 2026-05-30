@@ -110,6 +110,14 @@
     box-sizing: border-box;
 }
 
+/* Désactiver copier-coller sur les mots de passe */
+.auth-form input[type="password"] {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 .form-group:has(.field-feedback) input {
     padding-right: 50px;
 }
@@ -228,6 +236,18 @@
     box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.auth-form .btn-primary:disabled {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.auth-form .btn-primary:disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .auth-form .btn-primary::before {

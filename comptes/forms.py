@@ -84,27 +84,67 @@ class RegisterForm(forms.ModelForm):
         
         email = email.lower().strip()
 
-        pattern = r'^[a-zA-Z0-9._%+-]{1,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,}$'
+        # Regex RFC 5322 - exige au moins un TLD (.com, .fr, etc)
+        pattern = r'^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$'
 
         if not re.match(pattern, email):
             raise ValidationError("Adresse email invalide.")
         
-        username, domain = email.split('@')
+        try:
+            username, domain = email.rsplit('@', 1)
+        except ValueError:
+            raise ValidationError("Adresse email invalide.")
 
-        if len(username) < 1:
-            raise ValidationError("Partie avant @ trop courte.")
+        if len(username) < 2:
+            raise ValidationError("Partie avant @ doit contenir au moins 2 caractères.")
         
-        if len(domain.split('.')[0]) < 2:
+        if len(username) > 64:
+            raise ValidationError("Partie avant @ trop longue (max 64 caractères).")
+        
+        if len(email) > 254:
+            raise ValidationError("Adresse email trop longue (max 254 caractères).")
+        
+        if domain.startswith('.') or domain.endswith('.'):
             raise ValidationError("Domaine email invalide.")
         
+        if '..' in domain:
+            raise ValidationError("Domaine email invalide (points consécutifs).")
+        
+        # Vérifier qu'il y a au moins un point dans le domaine (TLD)
+        if '.' not in domain:
+            raise ValidationError("Domaine email doit avoir une extension (.com, .fr, etc).")
+        
+        # Liste complète de domaines temporaires/jetables
         blocked_domains = [
+            # Populaires
             "mailinator.com",
             "tempmail.com",
-            "guerrillamail.com"
+            "guerrillamail.com",
+            "10minutemail.com",
+            "throwaway.email",
+            "temp-mail.org",
+            "maildrop.cc",
+            "trash-mail.com",
+            "sharklasers.com",
+            "grr.la",
+            # Plus de jetables
+            "tempmail.io",
+            "yopmail.com",
+            "trashmail.com",
+            "fakeinbox.com",
+            "spam4.me",
+            "mailnesia.com",
+            "guerrillamail.info",
+            "tmail.com",
+            "temp-mail.io",
+            "maildrop.cc",
+            "mytrashmail.com",
+            "fake-mail.com",
+            "fakemail.net",
         ]
 
         if domain in blocked_domains:
-            raise ValidationError("Emails temporaires nnon autorisés.")
+            raise ValidationError("Domaine email temporaire non autorisé.")
 
         if User.objects.filter(email=email).exists():
             raise ValidationError("Cette adresse email est déjà utilisée.")
