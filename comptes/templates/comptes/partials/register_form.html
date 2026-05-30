@@ -18,6 +18,10 @@
                     <div id="username-feedback" class="field-feedback"></div>
                 {% endif %}
 
+                {% if field.name == "email" %}
+                    <div id="email-feedback" class="field-feedback"></div>
+                {% endif %}
+
                 {% if field.errors %}
                     <div class="field-errors">
                         {% for error in field.errors %}

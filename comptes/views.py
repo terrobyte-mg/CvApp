@@ -133,13 +133,24 @@ def check_username(request):
 
     if len(username) < 1:
         return JsonResponse({
-            "available": False,
-            "message": "Trop court"
+            "available": True,
+            "message": "Vide"
         })
     
     exists = User.objects.filter(username=username).exists()
 
     return JsonResponse({
-        "available": exists,
-        "message": "Pris" if exists else "Disponible"
+        "available": not exists,
+        "message": "Disponible" if not exists else "Pris"
+    })
+
+@require_GET
+def check_email(request):
+
+    email = request.GET.get("email", "").strip()
+
+    exists = User.objects.filter(email=email).exists()
+
+    return JsonResponse({
+        "available": not exists
     })

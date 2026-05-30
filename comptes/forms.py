@@ -57,6 +57,7 @@ class RegisterForm(forms.ModelForm):
             'email': forms.EmailInput(
                 attrs={
                     'placeholder': 'Adresse email',
+                    'id': 'id_email'
                 }
             )
 
