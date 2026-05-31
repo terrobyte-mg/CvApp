@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: #090d16;
@@ -12,10 +16,22 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    line-height: 1.5;
 }
 
 main {
     padding-top: 72px;
+    width: 100%;
+}
+
+img,
+svg {
+    max-width: 100%;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* --- Grille de fond --- */
@@ -30,6 +46,18 @@ main {
     pointer-events: none;
 }
 
+.top-gradient {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: min(760px, 100vw);
+    height: 260px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle at top, rgba(59, 130, 246, 0.22), transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
 /* --- Navigation --- */
 .nav-header {
     position: fixed;
@@ -40,7 +68,8 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
+    gap: 24px;
+    padding: 0 clamp(16px, 4vw, 40px);
     background-color: rgba(9, 13, 22, 0.8);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -50,22 +79,40 @@ main {
 
 .nav-actions {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.user-info {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.95rem;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.logout-form {
+    flex-shrink: 0;
 }
 
 /* --- Correction spécifique pour les liens boutons --- */
 .nav-link {
     text-decoration: none !important;
-    display: inline-block;
+    display: inline-flex;
+    min-width: 0;
 }
 
 #connexion, #inscrire {
+    min-height: 40px;
     font-family: inherit;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     text-decoration: none !important;
+    white-space: nowrap;
 }
 
 #connexion {
@@ -101,6 +148,8 @@ main {
     text-decoration: none;
     color: inherit;
     transition: opacity 0.2s ease;
+    min-width: 0;
+    flex-shrink: 0;
 }
 
 .logo-link:hover {
@@ -111,13 +160,15 @@ main {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
 }
 
 .logo-text {
     font-size: 1.5rem;
     font-weight: 700;
     color: white;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
+    white-space: nowrap;
 }
 
 /* --- Système de Messages Django --- */
@@ -125,6 +176,7 @@ main {
     position: fixed;
     top: 85px;
     right: 20px;
+    width: min(420px, calc(100vw - 40px));
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -141,6 +193,7 @@ main {
     color: white;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     animation: slideIn 0.3s ease-out;
+    overflow-wrap: anywhere;
 }
 
 @keyframes slideIn {
@@ -150,8 +203,8 @@ main {
 
 /* --- Footer --- */
 footer {
-    padding: 60px 40px;
-    margin-top: 100px;
+    padding: clamp(36px, 7vw, 60px) clamp(16px, 4vw, 40px);
+    margin-top: clamp(56px, 10vw, 100px);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: column;
@@ -164,4 +217,141 @@ footer p {
     color: #8f9bb3;
     font-size: 0.9rem;
     opacity: 0.8;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+/* TABLETTE */
+@media (max-width: 1024px) {
+    .nav-header {
+        gap: 16px;
+    }
+
+    main {
+        padding-top: 72px;
+    }
+
+    .grid-bg {
+        background-size: 48px 48px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .nav-header {
+        height: 64px;
+        gap: 12px;
+    }
+
+    main {
+        padding-top: 64px;
+    }
+
+    .nav-actions {
+        gap: 8px;
+    }
+
+    #connexion, #inscrire {
+        min-height: 38px;
+        padding: 7px 12px;
+        font-size: 0.85rem;
+    }
+
+    .logo-text {
+        font-size: 1.15rem;
+    }
+
+    .messages-container {
+        top: 76px;
+        right: 12px;
+        width: min(420px, calc(100vw - 24px));
+    }
+
+    footer {
+        gap: 16px;
+    }
+}
+
+/* PETIT MOBILE */
+@media (max-width: 480px) {
+    .nav-header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 112px;
+        padding-block: 12px;
+        gap: 8px;
+    }
+
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+
+    .logo {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .logo-text {
+        font-size: 1.05rem;
+    }
+
+    .user-info {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+        font-size: 0.85rem;
+    }
+
+    main {
+        padding-top: 112px;
+    }
+
+    .messages-container {
+        top: 124px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+    }
+
+    .alert {
+        width: 100%;
+        padding: 13px 15px;
+        font-size: 0.9rem;
+    }
+
+    footer {
+        gap: 10px;
+    }
+}
+
+/* TRES PETIT MOBILE */
+@media (max-width: 360px) {
+    .nav-header {
+        height: 124px;
+    }
+
+    main {
+        padding-top: 124px;
+    }
+
+    .messages-container {
+        top: 136px;
+    }
+
+    #connexion, #inscrire {
+        width: 100%;
+        justify-content: center;
+        padding-inline: 10px;
+    }
+
+    .nav-link,
+    .logout-form {
+        width: min(100%, 220px);
+    }
 }
