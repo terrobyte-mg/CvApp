@@ -16,10 +16,13 @@
 
         <h1>Complète ton profil</h1>
 
-        <p>Étape {{ wizard.steps.step1 }} / {{ wizard.steps.count }}</p>
+        <p class="step-counter">Étape {{ wizard.steps.step1 }} / {{ wizard.steps.count }}</p>
 
-        <!-- Progress bar simple -->
-        <div class="progress-bar">
+        <div class="progress-bar"
+             role="progressbar"
+             aria-valuemin="1"
+             aria-valuemax="{{ wizard.steps.count }}"
+             aria-valuenow="{{ wizard.steps.step1 }}">
             <div class="progress"
                  style="width: calc(({{ wizard.steps.step1 }} / {{ wizard.steps.count }}) * 100%)">
             </div>
@@ -28,7 +31,7 @@
     </div>
 
     <!-- FORM -->
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="onboarding-form">
 
         {% csrf_token %}
 
@@ -51,6 +54,7 @@
 
             <!-- FORM FIELDS -->
             <div class="form-fields">
+                {{ wizard.form.media }}
                 {{ wizard.form.as_p }}
             </div>
 
@@ -71,7 +75,7 @@
             {% endif %}
 
             <button type="submit" class="btn-primary">
-                {% if wizard.steps.last %}
+                {% if wizard.steps.current == wizard.steps.last %}
                     Terminer
                 {% else %}
                     Suivant →
@@ -84,4 +88,8 @@
 
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/onboarding.js' %}"></script>
 {% endblock %}

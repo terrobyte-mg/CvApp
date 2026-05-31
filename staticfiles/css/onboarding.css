@@ -3,27 +3,36 @@
 .onboarding-wrapper {
     width: 100%;
     max-width: 850px;
-    margin: 60px auto;
-    padding: 0 24px;
+    margin: clamp(28px, 6vw, 60px) auto;
+    padding: 0 clamp(14px, 4vw, 24px);
 }
 
 /* ===== HEADER ===== */
 
 .onboarding-header {
-    margin-bottom: 48px;
+    margin-bottom: clamp(28px, 5vw, 48px);
 }
 
 .onboarding-header h1 {
-    font-size: 2.5rem;
+    font-size: clamp(1.9rem, 5vw, 2.5rem);
     margin: 0 0 12px 0;
     color: white;
     font-weight: 700;
+    line-height: 1.12;
 }
 
-.onboarding-header p {
+.step-counter {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 6px 12px;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 999px;
+    background: rgba(139, 92, 246, 0.08);
     color: #b3b3b3;
     margin: 0 0 20px 0;
     font-size: 0.95rem;
+    font-weight: 600;
 }
 
 /* ===== PROGRESS BAR ===== */
@@ -50,18 +59,18 @@
 .form-container {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 48px;
+    border-radius: 20px;
+    padding: clamp(24px, 5vw, 48px);
     backdrop-filter: blur(12px);
-    margin-bottom: 40px;
+    margin-bottom: 28px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== STEP TITLE ===== */
 
 .step-title {
-    font-size: 1.6rem;
-    margin: 0 0 32px 0;
+    font-size: clamp(1.25rem, 3.6vw, 1.6rem);
+    margin: 0 0 clamp(24px, 4vw, 32px) 0;
     color: white;
     font-weight: 600;
     position: relative;
@@ -84,7 +93,8 @@
 .form-fields p {
     display: flex;
     flex-direction: column;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
+    min-width: 0;
 }
 
 .form-fields p:last-child {
@@ -113,25 +123,82 @@
     position: relative;
 }
 
+/* On transforme le conteneur en grille */
+.form-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes par défaut */
+    gap: 0 20px;
+}
+
+/* Tous les champs prennent toute la largeur par défaut (1 colonne) */
+.form-fields p {
+    grid-column: span 2;
+    margin-bottom: 28px;
+}
+
+
+/* Ajustement optionnel des largeurs relatives (ex: 30% / 70%) */
+.form-fields {
+    grid-template-columns: 120px 1fr; 
+}
+
+
 .form-fields input,
 .form-fields textarea,
 .form-fields select {
     width: 100%;
+    min-height: 50px;
     padding: 14px 16px;
     border-radius: 12px;
     border: 2px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.03);
     color: white;
     font-size: 0.95rem;
+    line-height: 1.35;
     outline: none;
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
+    font-family: inherit;
+    box-sizing: border-box;
 }
 
 .form-fields input::placeholder,
 .form-fields textarea::placeholder {
     color: rgba(255, 255, 255, 0.4);
+}
+
+.phone-fields {
+    display: grid;
+    grid-template-columns: minmax(96px, 150px) minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.phone-fields p {
+    margin-bottom: 0;
+}
+
+.phone-fields p:first-child input {
+    text-align: center;
+}
+
+.phone-fields p:first-child {
+    position: relative;
+}
+
+.phone-fields p:first-child::after {
+    content: '+';
+    position: absolute;
+    left: 16px;
+    bottom: 15px;
+    color: #a5b4fc;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.phone-fields p:first-child input {
+    padding-left: 34px;
 }
 
 /* ===== DATE INPUT ===== */
@@ -171,6 +238,62 @@
     padding: 12px 14px;
     cursor: pointer;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(139, 92, 246, 0.05));
+    line-height: 1.4;
+}
+
+.form-fields input[type="file"].file-invalid {
+    border-color: #f87171 !important;
+    background: rgba(248, 113, 113, 0.08);
+}
+
+.image-input-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.image-picker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.image-picker-button {
+    min-height: 44px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+    white-space: nowrap;
+}
+
+.image-picker-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
+}
+
+.image-picker-name {
+    min-width: 0;
+    color: #a5b4fc;
+    font-size: 0.86rem;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .form-fields input[type="file"]::file-selector-button {
@@ -193,6 +316,18 @@
     box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
+.file-feedback {
+    min-height: 20px;
+    margin: 8px 0 0;
+    color: #fca5a5;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.file-feedback.is-success {
+    color: #86efac;
+}
+
 /* Special styling for image file inputs */
 .form-fields input[type="file"][accept*="image"] {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
@@ -212,10 +347,17 @@
 /* ===== TEXTAREA ===== */
 
 .form-fields textarea {
-    min-height: 140px;
+    min-height: 52px;
+    max-height: 260px;
     resize: vertical;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: inherit;
     line-height: 1.5;
+    overflow-y: hidden;
+}
+
+.form-fields textarea:focus,
+.form-fields textarea.is-filled {
+    min-height: 96px;
 }
 
 /* ===== SELECT & DROPDOWN ===== */
@@ -238,6 +380,19 @@
     font-weight: 500;
 }
 
+.form-fields ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.form-fields li {
+    min-width: 0;
+}
+
 .form-fields select option:hover {
     background: #334155;
     color: white;
@@ -257,6 +412,7 @@
     font-size: 0.8rem;
     display: block;
     opacity: 0.9;
+    line-height: 1.45;
 }
 
 /* ===== ERRORS ===== */
@@ -279,7 +435,7 @@
 }
 
 .errorlist li::before {
-    content: '⚠ ';
+    content: '';
     margin-right: 4px;
 }
 
@@ -303,21 +459,43 @@
 .form-fields input[type="checkbox"],
 .form-fields input[type="radio"] {
     width: 18px;
+    min-height: 18px;
     height: 18px;
-    margin-right: 10px;
+    margin: 0 10px 0 0;
     cursor: pointer;
     accent-color: #8b5cf6;
+    flex-shrink: 0;
 }
 
-.form-fields p label[for] {
+.form-fields p label[for],
+.form-fields li label,
+.form-fields div label {
     display: flex;
     align-items: center;
-    margin: 0;
-    margin-bottom: 12px;
+    margin: 0 0 12px;
     font-weight: 500;
     text-transform: none;
     letter-spacing: 0;
     color: #e5e5e5;
+}
+
+.form-fields li label,
+.form-fields div label:has(input[type="checkbox"]),
+.form-fields div label:has(input[type="radio"]) {
+    min-height: 44px;
+    padding: 11px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.form-fields li label:hover,
+.form-fields div label:has(input[type="checkbox"]):hover,
+.form-fields div label:has(input[type="radio"]):hover {
+    border-color: rgba(139, 92, 246, 0.35);
+    background: rgba(139, 92, 246, 0.08);
 }
 
 /* ===== REQUIRED INDICATOR ===== */
@@ -345,6 +523,7 @@
 .btn-primary {
     border: none;
     cursor: pointer;
+    min-height: 48px;
     padding: 14px 32px;
     border-radius: 12px;
     font-weight: 700;
@@ -357,6 +536,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+    white-space: nowrap;
 }
 
 .btn-primary::before {
@@ -388,6 +568,7 @@
 .btn-secondary {
     border: 2px solid rgba(255, 255, 255, 0.15);
     cursor: pointer;
+    min-height: 48px;
     padding: 12px 28px;
     border-radius: 12px;
     font-weight: 700;
@@ -397,6 +578,7 @@
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .btn-secondary:hover {
@@ -421,30 +603,61 @@
     border-color: rgba(52, 211, 153, 0.5);
 }
 
+.photo-preview-box {
+    width: 100%;
+    min-height: 180px;
+    margin: 0 0 14px;
+    border: 2px dashed rgba(139, 92, 246, 0.35);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(139, 92, 246, 0.05);
+    color: #a5b4fc;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.photo-preview-box img {
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    object-fit: cover;
+}
+
+.onboarding-form.is-submitting .btn-primary {
+    opacity: 0.75;
+    cursor: wait;
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 768px) {
 
     .onboarding-wrapper {
-        padding: 16px;
-        margin-top: 40px;
+        padding: 0 14px;
+        margin-top: 28px;
     }
 
     .onboarding-header {
-        margin-bottom: 36px;
+        margin-bottom: 24px;
     }
 
-    .onboarding-header h1 {
-        font-size: 2rem;
+    .step-counter {
+        min-height: 30px;
+        margin-bottom: 14px;
+        font-size: 0.85rem;
     }
 
     .form-container {
-        padding: 32px 24px;
-        margin-bottom: 32px;
+        padding: 24px 18px;
+        margin-bottom: 18px;
+        border-radius: 16px;
     }
 
     .step-title {
-        font-size: 1.3rem;
+        padding-bottom: 12px;
         margin-bottom: 24px;
     }
 
@@ -452,16 +665,36 @@
         margin-bottom: 24px;
     }
 
+    .phone-fields {
+        gap: 12px;
+        grid-template-columns: minmax(88px, 120px) minmax(0, 1fr);
+    }
+
     .form-fields input,
     .form-fields textarea,
     .form-fields select {
-        padding: 12px 14px;
+        min-height: 48px;
+        padding: 13px 14px;
         font-size: 16px;
     }
 
+    .form-fields textarea {
+        min-height: 52px;
+    }
+
+    .form-fields textarea:focus,
+    .form-fields textarea.is-filled {
+        min-height: 88px;
+    }
+
     .wizard-actions {
-        flex-direction: column;
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+        flex-direction: column-reverse;
         gap: 12px;
+        padding: 14px 0 max(14px, env(safe-area-inset-bottom));
+        background: linear-gradient(180deg, rgba(9, 13, 22, 0), rgba(9, 13, 22, 0.94) 28%);
     }
 
     .btn-primary,
@@ -479,6 +712,79 @@
 
 }
 
+@media (max-width: 480px) {
+    .onboarding-wrapper {
+        padding-inline: 10px;
+        margin-top: 18px;
+    }
+
+    .onboarding-header h1 {
+        margin-bottom: 10px;
+    }
+
+    .progress-bar {
+        height: 7px;
+    }
+
+    .form-container {
+        padding: 20px 14px;
+        border-radius: 14px;
+    }
+
+    .form-fields label {
+        font-size: 0.82rem;
+        letter-spacing: 0.35px;
+    }
+
+    .form-fields ul {
+        grid-template-columns: 1fr;
+    }
+
+    .phone-fields {
+        grid-template-columns: minmax(82px, 104px) minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .phone-fields p:first-child::after {
+        left: 12px;
+        bottom: 14px;
+    }
+
+    .phone-fields p:first-child input {
+        padding-left: 28px;
+    }
+
+    .form-fields input[type="file"]::file-selector-button {
+        width: 100%;
+        margin: 0 0 10px;
+    }
+
+    .image-picker {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .image-picker-button {
+        width: 100%;
+    }
+
+    .image-picker-name {
+        white-space: normal;
+    }
+
+    .photo-preview-box,
+    .photo-preview-box img {
+        min-height: 150px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        font-size: 0.9rem;
+        letter-spacing: 0.25px;
+    }
+}
+
 /* ===== COLOR SCHEME DARK MODE FOR ALL INPUTS ===== */
 
 @supports (color-scheme: dark) {
@@ -487,4 +793,86 @@
     select {
         color-scheme: dark;
     }
+}
+
+
+.iti { width: 100%; }
+.iti__tel-input { 
+    padding-left: 90px !important; /* Ajustez selon la taille du drapeau + code */
+}
+
+/* Le conteneur de la liste déroulante */
+.iti__dropdown-content {
+    background: rgba(30, 41, 59, 0.95) !important; /* Bleu très sombre transparent */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+    margin-top: 8px !important;
+}
+
+/* Le champ de recherche à l'intérieur de la liste */
+.iti__search-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    width: calc(100% - 16px) !important;
+    border-radius: 8px !important;
+    margin: 8px !important;
+    padding: 10px !important;
+    outline: #1e293b;
+}
+
+/* Chaque pays dans la liste */
+.iti__country {
+    padding: 10px 15px !important;
+    color: #e5e5e5 !important;
+    transition: background 0.2s ease;
+}
+
+/* Au survol d'un pays */
+.iti__country:hover, .iti__country.iti__highlight {
+    background: rgba(139, 92, 246, 0.2) !important; /* Violet translucide */
+    color: white !important;
+}
+
+/* La petite flèche à côté du drapeau */
+.iti__arrow {
+    border-top-color: #9ca3af !important;
+}
+
+/* 1. On cible la liste déroulante spécifique d'intl-tel-input */
+.iti__country-listbox, 
+.iti__country-list {
+    /* Largeur de la scrollbar sur Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.5) rgba(30, 41, 59, 0.5);
+}
+
+/* 2. Styles pour Chrome, Edge et Safari (Webkit) */
+
+/* La barre entière */
+.iti__country-listbox::-webkit-scrollbar,
+.iti__country-list::-webkit-scrollbar {
+    width: 6px; /* On la rend plus fine */
+}
+
+/* Le fond de la barre (track) */
+.iti__country-listbox::-webkit-scrollbar-track,
+.iti__country-list::-webkit-scrollbar-track {
+    background: rgba(30, 41, 59, 0.3); /* Sombre et discret */
+    border-radius: 10px;
+}
+
+/* Le bouton coulissant (thumb) */
+.iti__country-listbox::-webkit-scrollbar-thumb,
+.iti__country-list::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.5); /* Violet comme votre thème */
+    border-radius: 10px;
+}
+
+/* Le bouton au survol */
+.iti__country-listbox::-webkit-scrollbar-thumb:hover,
+.iti__country-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.8); /* Un peu plus lumineux au survol */
 }

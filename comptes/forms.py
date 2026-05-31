@@ -141,6 +141,73 @@ class LoginForm(AuthenticationForm):
 
 class ProfilForm(forms.ModelForm):
 
+    telephone_numero = forms.CharField(
+        label="Numéro de téléphone",
+        required=False,
+        max_length=20,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Ex: 370000000',
+                'inputmode': 'numeric',
+                'autocomplete': 'tel-national',
+                'data-digits-only': 'true',
+            }
+        )
+    )
+
     class Meta:
         model = Profil
-        fields = ['nom', 'prenom', 'adresse', 'bio', 'photo', 'telephone']
+        fields = ['nom', 'prenom', 'telephone_numero', 'adresse', 'bio', 'photo']
+
+    class Media:
+        css = {
+            'all': ('css/intlTelInput.min.css',)
+        }
+        js = ('js/intlTelInput.min.js', 'js/utils.js', 'js/init-phone.js')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.order_fields([
+            'nom',
+            'prenom',
+            'telephone_numero',
+            'adresse',
+            'bio',
+            'photo'
+        ])
+
+    def clean_photo(self):
+        photo = self.cleaned_data.get('photo')
+
+        if not photo:
+            return photo
+
+        max_size = 2 * 1024 * 1024
+        allowed_types = ['image/jpeg', 'image/png', 'image/webp']
+
+        if photo.size > max_size:
+            raise ValidationError("Image trop lourde. Taille maximale : 2 Mo.")
+
+        content_type = getattr(photo, 'content_type', None)
+
+        if content_type and content_type not in allowed_types:
+            raise ValidationError("Image invalide. Formats acceptés : JPG, PNG ou WebP.")
+
+        return photo
+
+    def clean(self):
+        cleaned_data = super().clean()
+        numero = cleaned_data.get('telephone_numero', '').replace("+", "").strip()
+
+        if not numero:
+            self.add_error('telephone_numero', "Numéro requis.")
+
+        if numero and not numero.isdigit():
+            self.add_error('telephone_numero', "Chiffres uniquement.")
+
+        if numero and not 4 <= len(numero) <= 15:
+            self.add_error('telephone_numero', "Numéro invalide.")
+
+        cleaned_data['telephone'] = f"+ {numero}" if numero else ''
+
+        return cleaned_data
